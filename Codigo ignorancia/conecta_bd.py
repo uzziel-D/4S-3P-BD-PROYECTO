@@ -1,6 +1,5 @@
 import pymysql
 
-#ultima prueba de commit
 def recupera_categoria():
     conn = pymysql.connect(host='localhost', user ='root', passwd="", db='ignorancia')
     cursor = conn.cursor()
