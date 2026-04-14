@@ -56,10 +56,11 @@ def selec_categoria(ab):
 	dato=cursor.fetchone()
 	return dato
 
-def modif_categoria(ab,descripcion):
+def modif_categoria(ab,datos):
 	conn = pymysql.connect(host='localhost',user='root',passwd='', db='ignorancia2')
 	cursor = conn.cursor()
-	cursor.execute('select id_categoria, descripcion from categoria where id_categoria=%s',(ab))
+	cursor.execute('update pregunta set pregunta=%s,opcion1=%s,opcion2=%s,opcion3=%s,opcion4=%s,correcto=%s where Id_pregunta=%s',
+	(datos[0],datos[1],datos[2],datos[3],datos[4],datos[5],ab))
 	conn.commit()
 	conn.close()
 

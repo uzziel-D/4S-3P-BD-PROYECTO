@@ -1,0 +1,249 @@
+#importar librerias necesarios
+import random
+from tkinter import *
+from tkinter import ttk
+from tkinter import messagebox
+from conecta_bd import *
+from ed_categoria import *
+
+
+
+#definicion de la pantalla
+pantalla = Tk()
+pantalla.resizable(1,1)
+pantalla.geometry("1200x700")
+pantalla.config(background="Light Sky Blue")
+pantalla.title("Ignorancia-BD")
+
+fon=PhotoImage(file=r"./im/pista.png")
+fond=Label(pantalla,image=fon,bg="Light Sky Blue", width=1200,height=600).place(x=0,y=150)
+
+seleccion=()
+str_preg=StringVar()
+str_res1=StringVar()
+str_res2=StringVar()
+str_res3=StringVar()
+str_res4=StringVar()
+str_sig=StringVar()
+correcto=0
+x1=10
+x2=10
+x3=10
+x4=10
+turno=1
+
+
+
+
+
+def avanza_jug():
+	global x1,x2,x3
+	if turno==1:
+		x1=x1+100
+		j1.place(x=x1,y=250)
+	elif turno==2:
+		x2=x2+100
+		j2.place(x=x2,y=360)
+	elif turno==3:
+		x3=x3+100
+		j3.place(x=x3,y=470)
+
+def opc1():
+	global turno,x4
+	r1.config(state=DISABLED)
+	r2.config(state=DISABLED)
+	r3.config(state=DISABLED)
+	r4.config(state=DISABLED)
+	if correcto==1:
+		avanza_jug()
+	else:
+		x4=x4+100
+		bu.place(x=x4, y=570)
+	turno=turno+1
+	if turno>3:
+		turno=1
+	str_sig.set('Jugador '+str(turno))
+
+def opc2():
+	global turno,x4
+	r1.config(state=DISABLED)
+	r2.config(state=DISABLED)
+	r3.config(state=DISABLED)
+	r4.config(state=DISABLED)
+	if correcto==2:
+		avanza_jug()
+	else:
+		x4=x4+100
+		bu.place(x=x4, y=570)
+	turno=turno+1
+	if turno>3:
+		turno=1
+	str_sig.set('Jugador '+str(turno))
+
+def opc3():
+	global turno,x4
+	r1.config(state=DISABLED)
+	r2.config(state=DISABLED)
+	r3.config(state=DISABLED)
+	r4.config(state=DISABLED)
+	if correcto==3:
+		avanza_jug()
+	else:
+		x4=x4+100
+		bu.place(x=x4, y=570)
+	turno=turno+1
+	if turno>3:
+		turno=1
+	str_sig.set('Jugador '+str(turno))
+
+def opc4(): 
+	global turno,x4
+	r1.config(state=DISABLED)
+	r2.config(state=DISABLED)
+	r3.config(state=DISABLED)
+	r4.config(state=DISABLED)
+	if correcto==4:
+		avanza_jug()
+	else:
+		x4=x4+100
+		bu.place(x=x4, y=570)
+	turno=turno+1
+	if turno>3:
+		turno=1
+	str_sig.set('Jugador '+str(turno))
+
+
+def sel_preg():
+	global str_preg
+	global correct
+	tam=len(seleccion)
+	if tam!=0:
+		n = random.randint(0, tam-1)
+		#print(n)
+		str_preg.set(seleccion[n][1])
+		str_res1.set(seleccion[n][2])
+		str_res2.set(seleccion[n][3])
+		str_res3.set(seleccion[n][4])
+		str_res4.set(seleccion[n][5])
+		correcto=seleccion[n][6]
+		r1.config(state=NORMAL)
+		r2.config(state=NORMAL)
+		r3.config(state=NORMAL)
+		r4.config(state=NORMAL)
+	else:
+		str_preg.set('Categoria sin pregunta')
+		str_res1.set('')
+		str_res2.set('')
+		str_res3.set('')
+		str_res4.set('')
+		r1.config(state=DISABLED)
+		r2.config(state=DISABLED)
+		r3.config(state=DISABLED)
+		r4.config(state=DISABLED)
+
+	#pantalla.update()
+
+def preguntas(event):
+	global seleccion
+	cat = event.widget.get()
+	#los espacios en blanco del combo de tkinter agregan llaves en el contenido
+	#para eliminar ese problema recorremos el conjunto y cambiamos espacios
+	#por un guion bajo _ para hacer la busqueda en la base de datos necesitamos ahora
+	#reemplazar los guiones bajo _ por espacios en blanco
+	cat=str(cat).replace("_"," ")
+	seleccion=recupera_preguntas(cat)
+	sel_preg()
+
+
+def pregunta_sig():
+	global seleccion
+	cat = categorias.get()
+	# los espacios en blanco del combo de tkinter agregan llaves de contenido
+	# para eliminar ese problema recorremos el conjunto y cambiamos los espacios
+	# por guion bajo _ para hacer la busqueda en la base de datos necesitamos ahora
+	# reemplazar los guiones bajo _ por espacios en blanco
+	cat=str(cat).replace("_"," ")
+	seleccion=recupera_preguntas(cat)
+	sel_preg()
+
+def edita_categoria():
+	manipula_categorias()
+
+l_cats=recupera_categoria()
+#Los espacios en blanco del combo de tkinter agregan llaves en el contenido
+#para eliminar ese problema recorremos el conjunto y cambiamos los espacios
+#por guion bajo _
+cats=[]
+for cat in l_cats:
+	cat2=str(cat[0]).replace(" ","_")
+	cats.append(cat2)
+
+eti = Label(pantalla, bg="Light Sky Blue", text="Categorias", font='Helvetica 18 bold')
+eti.place(x=10, y=10)
+categorias=ttk.Combobox(pantalla,font='Helvetica 18 bold')
+categorias['values']=cats
+categorias.place(x=150, y=10)
+categorias.bind("<<ComboboxSelected>>", preguntas)
+
+##procedimientos main
+cats=recupera_categoria()
+#definir entrada para las respuesta
+eti = Label(pantalla, bg="Light Sky BLue", text="Categorias", font='Helvetica 18 bold')
+eti.place(x=10, y=10)
+categorias=ttk.Combobox(pantalla,font='Helvetica 18 bold')
+categorias['values']=cats
+categorias.place(x=150, y=10)
+categorias.bind("<<ComboboxSelect>>", preguntas)
+
+siguiente=PhotoImage(file=r"./im/siguiente.png")
+sig = Button(pantalla, text="sig", image=siguiente, command=pregunta_sig, font='Helvetica 14 bold ',bg="Green", fg="white")
+sig.place(x=750, y=10)
+
+carpeta=PhotoImage(file=r"./im/carpeta.png")
+cat_categ = Button(pantalla, image=carpeta, command=edita_categoria, font='Helvetica 14 bold ',bg="Green", fg="white")
+cat_categ.place(x=950, y=10)
+
+str_sig.set('Jugador 1')
+sig_jug = Label(pantalla, bg="Light Sky Blue", textvariable=str_sig, font='Helvetica 18 bold')
+sig_jug.place(x=500, y=10)
+
+eti = Label(pantalla, bg="Light Sky Blue", text="Pregunta", font='Helvetica 18 bold')
+eti.place(x=10, y=60)
+
+str_preg.set("")
+pre = Entry(pantalla, textvariable=str_preg, font='Helvetica 18 bold', bg="Lavander", width=100, state=DISABLED )
+pre.place(x=150, y=60)
+
+str_res1.set("")
+r1 = Button(pantalla, textvariable=str_res1, command=opc1, font='Helvetica 14 bold',bg="blue", fg="white", width=20)
+r1.place(x=100, y=110)
+
+str_res2.set("")
+r2 = Button(pantalla, textvariable=str_res2, command=opc2, font='Helvetica 14 bold',bg="blue", fg="white", width=20)
+r2.place(x=360, y=110)
+
+str_res3.set("")
+r3 = Button(pantalla, textvariable=str_res3, command=opc3, font='Helvetica 14 bold',bg="blue", fg="white", width=20)
+r3.place(x=620, y=110)
+
+str_res4.set("")
+r4 = Button(pantalla, textvariable=str_res4, command=opc4, font='Helvetica 14 bold',bg="blue", fg="white", width=20)
+r4.place(x=880, y=110)
+
+ju1=PhotoImage(file=r"./im/ju1.png")
+j1=Label(pantalla,image=ju1,bg="Light Sky Blue")
+j1.place(x=10, y=250)
+
+ju2=PhotoImage(file=r"./im/ju2.png")
+j2=Label(pantalla,image=ju2,bg="Light Sky Blue")
+j2.place(x=10, y=360)
+
+ju3=PhotoImage(file=r"./im/ju3.png")
+j3=Label(pantalla,image=ju3,bg="Light Sky Blue")
+j3.place(x=10,y=470)
+
+bur=PhotoImage(file=r"./im/ju4.png")
+bu=Label(pantalla,image=bur,bg="Light Sky Blue")
+bu.place(x=10,y=570)
+
+pantalla.mainloop()
