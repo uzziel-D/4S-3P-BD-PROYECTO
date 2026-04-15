@@ -18,9 +18,9 @@ def manipula_categorias():
 	ver_sb=ttk.Scrollbar(marco_per,orient="vertical")
 	ver_sb.pack(side=RIGHT, fill=Y)
 
-	Tab1_cat = ttk.TreeView(marco_per, columns=("col1"), yscrollcommand=ver_sb.set)
+	Tab1_cat = ttk.Treeview(marco_per, columns=("col1"), yscrollcommand=ver_sb.set)
 	Tab1_cat.column("#0",width=155)
-	Tab1_cat.column("col1,width=500")
+	Tab1_cat.column("col1",width=500)
 	Tab1_cat.heading("#0", text="Id_categoria")
 	Tab1_cat.heading("col1",text="Descripcion")
 	Tab1_cat.pack()
@@ -74,7 +74,7 @@ def manipula_categorias():
 	pre.place(x=120, y=20)
 	b_pregunta = Button(pantalla_cat, text="Preguntas", command=edita_preguntas,fg="white",bg="red4", font='Arial 12').place(x=570, y=20)
 	b_per = Button(pantalla_cat, text="Agregar categorias",command=agrega_cat,fg="white",bg="red4", font='Arial 12').place(x=10, y=60)
-	b_modif_cat=Button(pantalla_cat,text="Modifica categoria",command=modif_catsel,fg="white",bg="red4",font="Arial 12", width=20).place
-	b_borra_cat=Button(pantalla_cat,text="Borrar categoria",command=borra_catsel,fg="white",bg="red4",font="Arial 12", width=20).place
-	b_select_cat=Button(pantalla_cat,text="Selecciona Categoria",command=select_cat,fg="white",bg="red4",font="Arial 12",width=20).place
+	b_modif_cat=Button(pantalla_cat,text="Modifica categoria",command=modif_catsel,fg="white",bg="red4",font="Arial 12", width=20).place(x=10, y=60)
+	b_borra_cat=Button(pantalla_cat,text="Borrar categoria",command=borra_catsel,fg="white",bg="red4",font="Arial 12", width=20).place(x=10, y=60)
+	b_select_cat=Button(pantalla_cat,text="Selecciona Categoria",command=select_cat,fg="white",bg="red4",font="Arial 12",width=20).place(x=10, y=60)
 	pantalla_cat.mainloop()
