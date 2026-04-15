@@ -15,7 +15,7 @@ def manipula_categorias():
 	marco_per=Frame(pantalla_cat)
 	marco_per.pack()
 	marco_per.place(x=20, y=100)
-	ver_sb=ttk.ScrollBar(marco_per,orient="vertical")
+	ver_sb=ttk.Scrollbar(marco_per,orient="vertical")
 	ver_sb.pack(side=RIGHT, fill=Y)
 
 	Tab1_cat = ttk.TreeView(marco_per, columns=("col1"), yscrollcommand=ver_sb.set)

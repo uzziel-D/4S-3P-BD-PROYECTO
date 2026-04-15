@@ -211,7 +211,7 @@ eti = Label(pantalla, bg="Light Sky Blue", text="Pregunta", font='Helvetica 18 b
 eti.place(x=10, y=60)
 
 str_preg.set("")
-pre = Entry(pantalla, textvariable=str_preg, font='Helvetica 18 bold', bg="Lavander", width=100, state=DISABLED )
+pre = Entry(pantalla, textvariable=str_preg, font='Helvetica 18 bold', bg="Lavender", width=100, state=DISABLED )
 pre.place(x=150, y=60)
 
 str_res1.set("")
