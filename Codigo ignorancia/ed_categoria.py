@@ -59,7 +59,7 @@ def manipula_categorias():
 		modif_categoria(ab,str_cat.get())
 		recupera_db()
 
-	recupera_db()
+	recupera_db()#2
 	et=Label(pantalla_cat,text="Categoria",bg="Light Sky Blue", font='Helvetica 14 bold')
 	et.place(x=20, y=20)
 

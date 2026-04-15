@@ -166,7 +166,7 @@ def pregunta_sig():
 	seleccion=recupera_preguntas(cat)
 	sel_preg()
 
-def edita_categoria():
+def edita_categoria(): # 1
 	manipula_categorias()
 
 l_cats=recupera_categoria()
