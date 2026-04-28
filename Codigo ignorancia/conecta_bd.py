@@ -52,7 +52,7 @@ def borra_categoria(ab):
 def selec_categoria(ab):
 	conn = pymysql.connect(host='localhost',user='root',passwd='', db='ignorancia')
 	cursor = conn.cursor()
-	cursor.execute('select id_categoria,pregunta,opcion_1,opcion_2,opcion_3,opcion_4,correcto,id_categoria from pregunta where id_categoria=%s',(id))
+	cursor.execute('select id_categoria,pregunta,opcion_1,opcion_2,opcion_3,opcion_4,correcto,id_categoria from pregunta where id_categoria=%s',(ab))
 	dato=cursor.fetchone()
 	return dato
 
@@ -67,7 +67,7 @@ def modif_categoria(ab,datos):
 def tabla_pregunta(id):
 	conn = pymysql.connect(host='localhost',user='root',passwd='', db='ignorancia')
 	cursor = conn.cursor()
-	cursor.execute('select id_categoria,pregunta,opcion_1,opcion_2,opcion_3,opcion_4,correcto,id_categoria from pregunta where id_categoria=%s',(id))
+	cursor.execute('select id_pregunta,pregunta,opcion_1,opcion_2,opcion_3,opcion_4,correcto from pregunta where id_categoria=%s', (id))
 	preguntas = cursor.fetchall()
 	conn.close()
 	return preguntas
@@ -97,5 +97,5 @@ def borra_pregunta(ab):
 def inserta_pregunta(datos,id):
 	conn = pymysql.connect(host='localhost',user='root',passwd='', db='ignorancia')
 	cursor = conn.cursor()
-	cursor.execute('inserta into pregunta (pregunta,opcion_1,opcion_2,opcion_3,opcion_4,correcto,id_categoria) values(%s,%s,%s,%s,%s,%s,%s)', (datos[0],datos[1],datos[2],datos[3],datos[4],datos[5],id))
+	cursor.execute('insert into pregunta (pregunta,opcion_1,opcion_2,opcion_3,opcion_4,correcto,id_categoria) values(%s,%s,%s,%s,%s,%s,%s)', (datos[0],datos[1],datos[2],datos[3],datos[4],datos[5],id))
 	conn.commit()
