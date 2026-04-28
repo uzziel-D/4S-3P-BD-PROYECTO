@@ -1,5 +1,6 @@
 from tkinter import * 
 from tkinter import ttk
+from tkinter import messagebox
 from conecta_bd import *
 from ed_pregunta import *
 
@@ -43,15 +44,22 @@ def manipula_categorias():
 		recupera_db()
 
 	def borra_catsel():
+		if not Tab1_cat.selection():
+			print("no se selecciono una categoria")
+			messagebox.showwarning("Aviso", "Selecciona una categoría")
+			return
+		
 		ab=Tab1_cat.selection()[0]
 		borra_categoria(ab)
 		recupera_db()
+		
 
 	def select_cat():
 		global datos
 		
 		if not Tab1_cat.selection():
-			print("No se seleccionó ninguna categoría")
+			print("no se selecciono una categoria")
+			messagebox.showwarning("Aviso", "Selecciona una categoría")
 			return
 
 		ab=Tab1_cat.selection()[0]

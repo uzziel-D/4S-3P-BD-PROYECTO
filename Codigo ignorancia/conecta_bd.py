@@ -34,13 +34,12 @@ def tabla_categoria():
 	conn.close()
 	return cats
 
-def inserta_categoria(datos,id):
-	conn = pymysql.connect(host='localhost', user='root', passwd='', db='ignorancia')
-	cursor = conn.cursor()
-	cursor.execute('inserta into pregunta (pregunta,opcion_1,opcion_2,opcion_3,opcion_4,correcto,id_categoria) values(%s,%s,%s,%s,%s,%s,%s)', 
-	    (datos[0],datos[1],datos[2],datos[3],datos[4],datos[5],id))
-	conn.commit()
-	conn.close()
+def inserta_categoria(descripcion):
+    conn = pymysql.connect(host='localhost', user='root', passwd='', db='ignorancia')
+    cursor = conn.cursor()
+    cursor.execute('insert into categoria (descripcion) values (%s)',(descripcion,))
+    conn.commit()
+    conn.close()
 
 def borra_categoria(ab):
 	conn = pymysql.connect(host='localhost',user='root',passwd='', db='ignorancia')
@@ -52,17 +51,16 @@ def borra_categoria(ab):
 def selec_categoria(ab):
 	conn = pymysql.connect(host='localhost',user='root',passwd='', db='ignorancia')
 	cursor = conn.cursor()
-	cursor.execute('select id_categoria,pregunta,opcion_1,opcion_2,opcion_3,opcion_4,correcto,id_categoria from pregunta where id_categoria=%s',(ab))
+	cursor.execute('SELECT id_categoria, descripcion FROM categoria WHERE id_categoria = %s', (ab,))
 	dato=cursor.fetchone()
 	return dato
 
-def modif_categoria(ab,datos):
-	conn = pymysql.connect(host='localhost',user='root',passwd='', db='ignorancia')
-	cursor = conn.cursor()
-	cursor.execute('update pregunta set pregunta=%s,opcion_1=%s,opcion_2=%s,opcion_3=%s,opcion_4=%s,correcto=%s where Id_pregunta=%s',
-	(datos[0],datos[1],datos[2],datos[3],datos[4],datos[5],ab))
-	conn.commit()
-	conn.close()
+def modif_categoria(ab, descripcion):
+    conn = pymysql.connect(host='localhost', user='root', passwd='', db='ignorancia')
+    cursor = conn.cursor()
+    cursor.execute('UPDATE categoria SET descripcion=%s WHERE id_categoria=%s',(descripcion, ab))
+    conn.commit()
+    conn.close()
 
 def tabla_pregunta(id):
 	conn = pymysql.connect(host='localhost',user='root',passwd='', db='ignorancia')
