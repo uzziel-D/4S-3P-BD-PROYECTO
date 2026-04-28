@@ -35,7 +35,7 @@ def manipula_categorias():
 		#y solo muestran la primera palabara para eliminar ese problema recorremos
 		#el conjunto y cambiamos espacios por guion bajo _
 		for categ in categs:
-			Tab1_cat.insert(parent="",index="end",iid_categ=str[0],text=str(categ[0]), values=(str(categ[1]).replace(' ','_')))
+			Tab1_cat.insert(parent="",index="end",iid=categ[0],text=str(categ[0]), values=(str(categ[1]).replace(' ','_')))
 
 
 	def agrega_cat():

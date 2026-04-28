@@ -26,11 +26,11 @@ def recupera_preguntas(cat):
 	conn.close()
 	return preguntas
 
-def tabla_categoria(id):
+def tabla_categoria():
 	conn = pymysql.connect(host='localhost', user='root', passwd='', db='ignorancia')
 	cursor = conn.cursor()
-	cursor.execute('select id_categoria,pregunta,opcion_1,opcion:2,opcion3,opcion4,correcto,id_categoria from pregunta where id_categoria=%s',(id))
-	cats= cursor.fetchall()
+	cursor.execute('select id_categoria, descripcion from categoria')
+	cats = cursor.fetchall()
 	conn.close()
 	return cats
 
@@ -45,7 +45,7 @@ def inserta_categoria(datos,id):
 def borra_categoria(ab):
 	conn = pymysql.connect(host='localhost',user='root',passwd='', db='ignorancia')
 	cursor = conn.cursor()
-	cursor.execute('delete from categoria where Id_categoria=%s' (ab))
+	cursor.execute('delete from categoria where Id_categoria=%s', (ab))
 	conn.commit()
 	conn.close()
 
