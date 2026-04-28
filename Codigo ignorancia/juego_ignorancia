@@ -115,7 +115,7 @@ def opc4():
 
 def sel_preg():
 	global str_preg
-	global correct
+	global correcto
 	tam=len(seleccion)
 	if tam!=0:
 		n = random.randint(0, tam-1)
