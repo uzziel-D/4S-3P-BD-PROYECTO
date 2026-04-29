@@ -5,7 +5,7 @@ from tkinter import ttk
 from tkinter import messagebox
 from conecta_bd import *
 from ed_categoria import *
-
+from ed_usuario import *
 
 
 #definicion de la pantalla
@@ -169,6 +169,8 @@ def pregunta_sig():
 def edita_categoria(): # 1
 	manipula_categorias()
 
+def edita_usuario(): # 2
+	manipula_usuario()
 l_cats=recupera_categoria()
 #Los espacios en blanco del combo de tkinter agregan llaves en el contenido
 #para eliminar ese problema recorremos el conjunto y cambiamos los espacios
@@ -202,6 +204,9 @@ sig.place(x=750, y=10)
 carpeta=PhotoImage(file=r"./im/carpeta.png")
 cat_categ = Button(pantalla, image=carpeta, command=edita_categoria, font='Helvetica 14 bold ',bg="Green", fg="white")
 cat_categ.place(x=950, y=10)
+
+usua = Button(pantalla, image=carpeta, command=edita_usuario, font='Helvetica 14 bold ',bg="Green", fg="white")
+usua.place(x=1000, y=10)
 
 str_sig.set('Jugador 1')
 sig_jug = Label(pantalla, bg="Light Sky Blue", textvariable=str_sig, font='Helvetica 18 bold')

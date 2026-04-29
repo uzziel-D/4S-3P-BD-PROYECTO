@@ -26,6 +26,22 @@ def recupera_preguntas(cat):
 	conn.close()
 	return preguntas
 
+def recupera_usuarios():
+	conn = pymysql.connect(host='localhost', user='root', passwd='', db='ignorancia')
+	cursor = conn.cursor()
+	cursor.execute('select id_usuario, nombre from usuario')
+	usuarios = cursor.fetchall()
+	conn.close()
+	return usuarios
+
+def recupera_usuario_categoria():
+	conn = pymysql.connect(host='localhost', user='root', passwd='', db='ignorancia')
+	cursor = conn.cursor()
+	cursor.execute('select a.id_usuario, a.id_categoria, a.puntos from usuario_categoria a')
+	usuario_categoria = cursor.fetchall()
+	conn.close()
+	return usuario_categoria
+
 def tabla_categoria():
 	conn = pymysql.connect(host='localhost', user='root', passwd='', db='ignorancia')
 	cursor = conn.cursor()
