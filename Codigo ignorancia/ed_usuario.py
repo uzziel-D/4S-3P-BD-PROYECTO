@@ -2,17 +2,107 @@ from tkinter import *
 from tkinter import ttk
 from conecta_bd import *
 
-def manipula_usuario():
-	pantalla_pre=Toplevel()
-	pantalla_pre.resizable(1,1)
-	pantalla_pre.geometry("1250x550")
-	pantalla_pre.config(background="Light Sky Blue")
-	pantalla_pre.title("Catalogo de Preguntas")
-	str_cat=StringVar()
-	str_pre=StringVar()
-	str_op1=StringVar()
-	str_op2=StringVar()	
-	str_op3=StringVar()
-	str_op4=StringVar()
-	str_cor=StringVar()
 
+def manipula_usuarios():
+
+	pantalla_user = Toplevel()
+	pantalla_user.resizable(1,1)
+	pantalla_user.geometry("700x400")
+	pantalla_user.config(background="Light Sky Blue")
+	pantalla_user.title("Catalogo de Usuarios")
+	str_user = StringVar()
+
+	#marco para la pantallla 
+	marco = Frame(pantalla_user)
+	marco.pack()
+	marco.place(x=40, y=120)
+	#barra de desplazamiento para la tabla de los usarios
+	scroll = ttk.Scrollbar(marco, orient="vertical")
+	scroll.pack(side=RIGHT, fill=Y)
+    #
+	Tab_user = ttk.Treeview(marco, columns=("nombre"), yscrollcommand=scroll.set)
+	Tab_user.column("#0", width=80)
+	Tab_user.column("nombre", width=300)
+	Tab_user.heading("nombre", text="Nombre")
+	Tab_user.pack()
+	scroll.config(command=Tab_user.yview)
+
+	jugador1 = None#defino a un jugador como nada para darle un valor despues
+
+	# recupera los usuarios de la BD
+	def recupera_db():
+		for item in Tab_user.get_children():
+			Tab_user.delete(item)
+		users = recupera_usuarios()
+		for u in users:
+			Tab_user.insert(parent="",index="end",iid=u[0],text=u[0],values=(u[1],))
+
+	#
+	def select_user():
+		global user_actual
+
+		sel = Tab_user.selection()
+
+        #para entender la falla cuando no se selecciona un usuario
+		if not sel:
+			print("No se seleccionó usuario")
+			return
+		#para seleccionar al usuario segun su id
+		user_actual = sel[0]
+		print("Usuario seleccionado:", user_actual)
+		
+	#agrega al un usuario con la funcion inserta usuario pero si no se ingresa un nombre hara un print
+	def agrega_user():
+		nombre = str_user.get()
+		if nombre == "":
+			print("no se ingreso un nombre")
+			return
+		inserta_usuario(nombre)
+		recupera_db()
+		str_user.set("")
+		
+
+	def modifica_user():
+		sel	=  Tab_user.selection()
+		if not sel:
+			print("No se seleccionó usuario")
+			return
+		#ac es la 	primera seleccion que hiso el usuario
+		ac = sel[0]
+		modif_usuario(ac,str_user.get())
+		recupera_db()
+    	
+	def asignar_j1():
+		global jugador1
+		sel = Tab_user.selection()
+		if not sel:
+			print("Selecciona un usuario")
+			return
+	
+		item = Tab_user.item(sel[0])
+		nombre = item["values"][0]
+
+		jugador1 = nombre
+		print("Jugador 1:", jugador1)
+
+
+	str_user.set("")
+	#entrada donde se muestra o se ingresa el usuario
+	pre = Entry(pantalla_user, textvariable=str_user, font='Helvetica 14 bold ',bg="Lavender", width=50)
+	pre.place(x=20, y=20)
+	#boton para agregar un usuario
+	btn_agrega = Button(pantalla_user, text="Agregar usuario", command=agrega_user, bg="green4", fg="white")
+	btn_agrega.place(x=400, y=60)
+	#boton de seleccion de usuario
+	btn_select = Button(pantalla_user,text="Seleccionar usuario",command=select_user,bg="red4",fg="white")
+	btn_select.place(x=20, y=60)
+	#boton para modificar el nombre del usuario seleccionado
+	btn_modifica = Button(pantalla_user, text="Modificar usuario", command=modifica_user, bg="blue4", fg="white")
+	btn_modifica.place(x=200, y=60)
+
+	#Botones para los definir a los jugadores
+	btn_j1 = Button(pantalla_user, text="Ju1", command=asg_j1, bg="orange")
+	btn_j1.place(x=20, y=90)
+
+	recupera_db()
+	pantalla_user.mainloop()

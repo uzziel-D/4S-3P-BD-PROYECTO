@@ -56,7 +56,7 @@ def manipula_categorias():
 
 	def select_cat():
 		global datos
-		
+		#aviso de que no se selecciono una categoria
 		if not Tab1_cat.selection():
 			print("no se selecciono una categoria")
 			messagebox.showwarning("Aviso", "Selecciona una categoría")

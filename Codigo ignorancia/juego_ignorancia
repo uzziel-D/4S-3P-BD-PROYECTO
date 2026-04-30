@@ -31,10 +31,10 @@ x2=10
 x3=10
 x4=10
 turno=1
-
-
-
-
+gano1= FALSE
+gano2= FALSE
+gano3= FALSE
+gano4= FALSE
 
 def avanza_jug():
 	global x1,x2,x3
@@ -170,7 +170,7 @@ def edita_categoria(): # 1
 	manipula_categorias()
 
 def edita_usuario(): # 2
-	manipula_usuario()
+	manipula_usuarios()
 l_cats=recupera_categoria()
 #Los espacios en blanco del combo de tkinter agregan llaves en el contenido
 #para eliminar ese problema recorremos el conjunto y cambiamos los espacios
@@ -179,6 +179,17 @@ cats=[]
 for cat in l_cats:
 	cat2=str(cat[0]).replace(" ","_")
 	cats.append(cat2)
+
+def gano():
+	if x1>=1100:
+		messagebox.showinfo("Fin del juego", "Gana el jugador 1")
+	elif x2>=1100:
+		messagebox.showinfo("Fin del juego", "Gana el jugador 2")
+	elif x3>=1100:
+		messagebox.showinfo("Fin del juego", "Gana el jugador 3")
+	elif x4>=1100:
+		messagebox.showinfo("Fin del juego", "Gana el jugador 4")
+
 
 eti = Label(pantalla, bg="Light Sky Blue", text="Categorias", font='Helvetica 18 bold')
 eti.place(x=10, y=10)
@@ -199,7 +210,7 @@ categorias.bind("<<ComboboxSelect>>", preguntas)
 
 siguiente=PhotoImage(file=r"./im/siguiente.png")
 sig = Button(pantalla, text="sig", image=siguiente, command=pregunta_sig, font='Helvetica 14 bold ',bg="Green", fg="white")
-sig.place(x=750, y=10)
+sig.place(x=900, y=10)
 
 carpeta=PhotoImage(file=r"./im/carpeta.png")
 cat_categ = Button(pantalla, image=carpeta, command=edita_categoria, font='Helvetica 14 bold ',bg="Green", fg="white")

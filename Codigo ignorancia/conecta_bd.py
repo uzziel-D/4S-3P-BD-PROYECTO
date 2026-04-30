@@ -34,6 +34,21 @@ def recupera_usuarios():
 	conn.close()
 	return usuarios
 
+def tabla_usuarios():
+	conn = pymysql.connect(host='localhost', user='root', passwd='', db='ignorancia')
+	cursor = conn.cursor()
+	cursor.execute('select id_usuario, nombre from usuario')
+	usuarios = cursor.fetchall()
+	conn.close()
+	return usuarios
+
+def inserta_usuario(nombre):
+	conn = pymysql.connect(host='localhost', user='root', passwd='', db='ignorancia')
+	cursor = conn.cursor()
+	cursor.execute('insert into usuario (nombre) values (%s)',(nombre,))
+	conn.commit()
+	conn.close()
+	
 def recupera_usuario_categoria():
 	conn = pymysql.connect(host='localhost', user='root', passwd='', db='ignorancia')
 	cursor = conn.cursor()
@@ -41,6 +56,20 @@ def recupera_usuario_categoria():
 	usuario_categoria = cursor.fetchall()
 	conn.close()
 	return usuario_categoria
+
+def actualiza_puntos_usuario(id_usuario, id_categoria, puntos):
+	conn = pymysql.connect(host='localhost', user='root', passwd='', db='ignorancia')
+	cursor = conn.cursor()
+	cursor.execute("CALL sp_actualiza_usuario_categoria(%s, %s, %s)", (id_usuario, id_categoria, puntos))
+	conn.commit()
+	conn.close()
+
+def inserta_usuario(nombre):
+	conn = pymysql.connect(host='localhost', user='root', passwd='', db='ignorancia')
+	cursor = conn.cursor()
+	cursor.execute('insert into usuario (nombre) values (%s)',(nombre,))
+	conn.commit()
+	conn.close()
 
 def tabla_categoria():
 	conn = pymysql.connect(host='localhost', user='root', passwd='', db='ignorancia')
@@ -54,6 +83,13 @@ def inserta_categoria(descripcion):
     conn = pymysql.connect(host='localhost', user='root', passwd='', db='ignorancia')
     cursor = conn.cursor()
     cursor.execute('insert into categoria (descripcion) values (%s)',(descripcion,))
+    conn.commit()
+    conn.close()
+
+def modif_usuario(ac, nombre):
+    conn = pymysql.connect(host='localhost', user='root', passwd='', db='ignorancia')
+    cursor = conn.cursor()
+    cursor.execute('UPDATE usuario SET nombre=%s WHERE id_usuario=%s',(nombre, ac))
     conn.commit()
     conn.close()
 
