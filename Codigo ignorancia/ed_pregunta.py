@@ -1,7 +1,9 @@
+#Importa las librerias
 from tkinter import *
 from tkinter import ttk
 from conecta_bd import *
 
+#Ventana para administrar las preguntas de una categoria
 def manipula_preguntas(datos):
 	id=datos[0]
 	pantalla_pre=Toplevel()
@@ -9,6 +11,8 @@ def manipula_preguntas(datos):
 	pantalla_pre.geometry("1250x550")
 	pantalla_pre.config(background="Light Sky Blue")
 	pantalla_pre.title("Catalogo de Preguntas")
+
+	#Variables que almacenan los datos capturados en los Entry 
 	str_cat=StringVar()
 	str_pre=StringVar()
 	str_op1=StringVar()
@@ -17,6 +21,7 @@ def manipula_preguntas(datos):
 	str_op4=StringVar()
 	str_cor=StringVar()
 
+    #Frame, scrollbar y tabla donde se muestran las preguntas
 	marco_pre=Frame(pantalla_pre)
 	marco_pre.pack()
 	marco_pre.place(x=20, y=250)
@@ -44,6 +49,7 @@ def manipula_preguntas(datos):
 	ver_sb.config(command=Tabl_pre.yview)
 
 
+#Limpia y vuelve a cargar las preguntas desde la base de datos 
 	def recupera_preg(ide):
 		for record in Tabl_pre.get_children():
 			Tabl_pre.delete(record)
@@ -53,7 +59,7 @@ def manipula_preguntas(datos):
 			str(preg[2]).replace(' ','_'),str(preg[3]).replace(' ','_'),str(preg[4]).replace(' ','_'),
 			str(preg[5]).replace(' ','_'),str(preg[6]).replace(' ','_')))
 
-
+#Funciones para agregar, borrar, modificar y seleccionar preguntas 
 	def agrega_pre():
 		datos=(str_pre.get(),str_op1.get(),str_op2.get(),str_op3.get(),str_op4.get(),str_cor.get())
 		inserta_pregunta(datos,id)
@@ -83,6 +89,7 @@ def manipula_preguntas(datos):
 		#habilita los botones
 
 
+#Inicializa la tabla y limpia los campos del formulario 
 	recupera_preg(id)
 	str_cat.set(datos[1])
 	str_pre.set("")
@@ -92,6 +99,7 @@ def manipula_preguntas(datos):
 	str_op4.set("")
 	str_cor.set("")
 
+#Etiquetas y cajas de texto para capturar datos 
 	et1=Label(pantalla_pre,text="Categoria",bg="Light Sky Blue", font='Helvetica 14 bold ').place(x=20, y=20)
 	cate = Entry(pantalla_pre, textvariable=str_cat, font='Helvetica 14 bold ',bg="Lavender", width=50,state=DISABLED).place(x=120, y=60)
 
@@ -113,8 +121,11 @@ def manipula_preguntas(datos):
 	et7=Label(pantalla_pre,text="Correcto",bg="Light Sky Blue", font='Helvetica 14 bold ').place(x=20, y=150)
 	corr = Entry(pantalla_pre, textvariable=str_cor, font='Helvetica 14 bold ',bg="Lavender", width=30).place(x=120, y=150)
 
+#Botones para ejecutar  las operaciones del CRUD
 	b_per = Button(pantalla_pre, text="Agregar Pregunta",command=agrega_pre,fg="white",bg="red4", font='Arial 12').place(x=10, y=200)
 	b_modif_pre=Button(pantalla_pre, text="Modifica pregunta",command=modif_pre,fg="white",bg="red4", font="Arial 12", width=20).place(x=160, y=200)
 	b_borra_pre=Button(pantalla_pre, text="Borrar pregunta",command=borra_pre,fg="white",bg="red4", font="Arial 12", width=20).place(x=350, y=200)
 	b_selec_pre=Button(pantalla_pre, text="Selecciona pregunta",command=selec_pre,fg="white",bg="red4", font="Arial 12",width=20).place(x=540, y=200) 
+	
+	#Mantiene la ventana en funcionamiento 	
 	pantalla_pre.mainloop()

@@ -6,6 +6,7 @@ from tkinter import messagebox
 from conecta_bd import *
 from ed_categoria import *
 from ed_usuario import *
+import ed_usuario
 
 
 #definicion de la pantalla
@@ -14,6 +15,7 @@ pantalla.resizable(1,1)
 pantalla.geometry("1200x700")
 pantalla.config(background="Light Sky Blue")
 pantalla.title("Ignorancia-BD")
+
 
 fon=PhotoImage(file=r"./im/pista.png")
 fond=Label(pantalla,image=fon,bg="Light Sky Blue", width=1200,height=600).place(x=0,y=150)
@@ -36,6 +38,26 @@ gano2= FALSE
 gano3= FALSE
 gano4= FALSE
 
+
+
+def poder_jugar():
+	if ed_usuario.jugador1 == "Defina los jugadores" or ed_usuario.jugador2 == "Defina los jugadores" or ed_usuario.jugador3 == "Defina los jugadores":
+		messagebox.showwarning("Aviso", "Defina todos los jugadores para poder jugar")
+		return False
+
+	else:
+		return True
+
+def actualizar_jugador():
+	if turno == 1:
+		str_sig.set(str("jugador " + ed_usuario.jugador1))
+
+	elif turno == 2:
+		str_sig.set(str("jugador " + ed_usuario.jugador2))
+
+	elif turno == 3:
+		str_sig.set(str("jugador " + ed_usuario.jugador3))
+
 def avanza_jug():
 	global x1,x2,x3
 	if turno==1:
@@ -44,11 +66,16 @@ def avanza_jug():
 	elif turno==2:
 		x2=x2+100
 		j2.place(x=x2,y=360)
+
 	elif turno==3:
 		x3=x3+100
 		j3.place(x=x3,y=470)
 
+
+
 def opc1():
+	if not poder_jugar():
+		return
 	global turno,x4
 	r1.config(state=DISABLED)
 	r2.config(state=DISABLED)
@@ -62,9 +89,11 @@ def opc1():
 	turno=turno+1
 	if turno>3:
 		turno=1
-	str_sig.set('Jugador '+str(turno))
+	actualizar_jugador()
 
 def opc2():
+	if not poder_jugar():
+		return
 	global turno,x4
 	r1.config(state=DISABLED)
 	r2.config(state=DISABLED)
@@ -78,9 +107,11 @@ def opc2():
 	turno=turno+1
 	if turno>3:
 		turno=1
-	str_sig.set('Jugador '+str(turno))
+	actualizar_jugador()
 
 def opc3():
+	if not poder_jugar():
+		return
 	global turno,x4
 	r1.config(state=DISABLED)
 	r2.config(state=DISABLED)
@@ -94,9 +125,11 @@ def opc3():
 	turno=turno+1
 	if turno>3:
 		turno=1
-	str_sig.set('Jugador '+str(turno))
+	actualizar_jugador()
 
 def opc4(): 
+	if not poder_jugar():
+		return
 	global turno,x4
 	r1.config(state=DISABLED)
 	r2.config(state=DISABLED)
@@ -110,7 +143,7 @@ def opc4():
 	turno=turno+1
 	if turno>3:
 		turno=1
-	str_sig.set('Jugador '+str(turno))
+	actualizar_jugador()
 
 
 def sel_preg():
@@ -156,6 +189,8 @@ def preguntas(event):
 
 
 def pregunta_sig():
+	if not poder_jugar():
+		return
 	global seleccion
 	cat = categorias.get()
 	# los espacios en blanco del combo de tkinter agregan llaves de contenido
@@ -171,6 +206,9 @@ def edita_categoria(): # 1
 
 def edita_usuario(): # 2
 	manipula_usuarios()
+	actualizar_jugador()
+
+	
 l_cats=recupera_categoria()
 #Los espacios en blanco del combo de tkinter agregan llaves en el contenido
 #para eliminar ese problema recorremos el conjunto y cambiamos los espacios
@@ -215,11 +253,11 @@ sig.place(x=900, y=10)
 carpeta=PhotoImage(file=r"./im/carpeta.png")
 cat_categ = Button(pantalla, image=carpeta, command=edita_categoria, font='Helvetica 14 bold ',bg="Green", fg="white")
 cat_categ.place(x=950, y=10)
-
-usua = Button(pantalla, image=carpeta, command=edita_usuario, font='Helvetica 14 bold ',bg="Green", fg="white")
+usuario=PhotoImage(file=r"./im/usuario.png")
+usua = Button(pantalla, image=usuario, command=edita_usuario, font='Helvetica 14 bold ',bg="Green", fg="white")
 usua.place(x=1000, y=10)
 
-str_sig.set('Jugador 1')
+actualizar_jugador()
 sig_jug = Label(pantalla, bg="Light Sky Blue", textvariable=str_sig, font='Helvetica 18 bold')
 sig_jug.place(x=500, y=10)
 

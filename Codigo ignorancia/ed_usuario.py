@@ -1,6 +1,9 @@
 from tkinter import *
 from tkinter import ttk
 from conecta_bd import *
+jugador1 = "Defina los jugadores"
+jugador2 = "Defina los jugadores"
+jugador3 = "Defina los jugadores"
 
 
 def manipula_usuarios():
@@ -27,7 +30,7 @@ def manipula_usuarios():
 	Tab_user.pack()
 	scroll.config(command=Tab_user.yview)
 
-	jugador1 = None#defino a un jugador como nada para darle un valor despues
+
 
 	# recupera los usuarios de la BD
 	def recupera_db():
@@ -85,6 +88,34 @@ def manipula_usuarios():
 		jugador1 = nombre
 		print("Jugador 1:", jugador1)
 
+	
+
+	
+	def asignar_j2():
+		global jugador2
+		sel = Tab_user.selection()
+		if not sel:
+			print("Selecciona un usuario")
+			return
+		item = Tab_user.item(sel[0])
+		nombre = item["values"][0]
+
+		jugador2 = nombre
+		print("Jugador 2:", jugador2)
+
+
+	def asignar_j3():
+		global jugador3
+		sel = Tab_user.selection()
+		if not sel:
+			print("Selecciona un usuario")
+			return
+		item = Tab_user.item(sel[0])
+		nombre = item["values"][0]
+
+		jugador3 = nombre
+		print("Jugador 3:", jugador3)
+
 
 	str_user.set("")
 	#entrada donde se muestra o se ingresa el usuario
@@ -96,13 +127,19 @@ def manipula_usuarios():
 	#boton de seleccion de usuario
 	btn_select = Button(pantalla_user,text="Seleccionar usuario",command=select_user,bg="red4",fg="white")
 	btn_select.place(x=20, y=60)
-	#boton para modificar el nombre del usuario seleccionado
+	#boton para modificar el nombre del usuaio seleccionado
 	btn_modifica = Button(pantalla_user, text="Modificar usuario", command=modifica_user, bg="blue4", fg="white")
 	btn_modifica.place(x=200, y=60)
 
 	#Botones para los definir a los jugadores
-	btn_j1 = Button(pantalla_user, text="Ju1", command=asg_j1, bg="orange")
+	btn_j1 = Button(pantalla_user, text="Ju1", command=asignar_j1, bg="orange")
 	btn_j1.place(x=20, y=90)
+
+	btn_j2 = Button(pantalla_user, text="Ju2", command=asignar_j2, bg="orange")
+	btn_j2.place(x=100, y=90)
+
+	btn_j3 = Button(pantalla_user, text="Ju3", command=asignar_j3, bg="orange")
+	btn_j3.place(x=180, y=90)
 
 	recupera_db()
 	pantalla_user.mainloop()

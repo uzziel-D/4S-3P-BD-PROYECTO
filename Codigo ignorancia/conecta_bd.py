@@ -1,3 +1,4 @@
+#Se importa la libreria necesaria
 import pymysql
 
 ##Procedimiento para conectar y extraer informacion de la BD
@@ -18,8 +19,14 @@ def recupera_categoria():
 def recupera_preguntas(cat):
 	conn = pymysql.connect(host='localhost', user='root', passwd='', db='ignorancia')
 	cursor = conn.cursor()
+	# Se arma la primera parte de la consulta SQL seleccionando todos los datos necesarios de la tabla pregunta.
+	# Aquí se obtienen el id de la pregunta, el texto, las 4 opciones, la respuesta correcta y la categoría.
 	consulta='select b.id_pregunta,b.pregunta,b.opcion_1,b.opcion_2,b.opcion_3,b.opcion_4,b.correcto,b.id_categoria '
+	# Se agrega la parte FROM indicando las tablas que se van a usar.
+	# La tabla categoria se renombra como "a" y pregunta como "b" para escribir menos y hacer más fácil la consulta.
 	consulta=consulta+' from categoria a, pregunta b'
+	# Se agrega la condición para relacionar ambas tablas.
+	# Se busca la categoría usando la descripción que el usuario seleccionó, y después compara el id_categoria de ambas tablas para traer solamente las preguntas que pertenecen a esa categoría.
 	consulta=consulta+' where a.descripcion="'+cat+'" and b.id_categoria=a.id_categoria '
 	cursor.execute(consulta)
 	preguntas = cursor.fetchall()

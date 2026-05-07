@@ -1,8 +1,10 @@
+#Se importan las librerias necesarias y usamos los datos que estan en otro lado
 from tkinter import * 
 from tkinter import ttk
 from tkinter import messagebox
 from conecta_bd import *
 from ed_pregunta import *
+
 
 def manipula_categorias():
 	pantalla_cat=Toplevel()
@@ -56,7 +58,6 @@ def manipula_categorias():
 
 	def select_cat():
 		global datos
-		#aviso de que no se selecciono una categoria
 		if not Tab1_cat.selection():
 			print("no se selecciono una categoria")
 			messagebox.showwarning("Aviso", "Selecciona una categoría")
