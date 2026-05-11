@@ -141,5 +141,16 @@ def manipula_usuarios():
 	btn_j3 = Button(pantalla_user, text="Ju3", command=asignar_j3, bg="orange")
 	btn_j3.place(x=180, y=90)
 
+	#nombre de los  jugadores definidos
+	jug = Label(pantalla_user, bg="Light Sky Blue", textvariable="jugador1", font='Helvetica 18 bold')
+	jug.place(x=500, y=300)
+
+	jug2 = Label(pantalla_user, bg="Light Sky Blue", textvariable="jugador2", font='Helvetica 18 bold')
+	jug2.place(x=500, y=250)
+
+	jug3 = Label(pantalla_user, bg="Light Sky Blue", textvariable="jugador3", font='Helvetica 18 bold')
+	jug3.place(x=500, y=200)
+
+
 	recupera_db()
 	pantalla_user.mainloop()
