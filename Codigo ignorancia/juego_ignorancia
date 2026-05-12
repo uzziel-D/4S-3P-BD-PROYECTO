@@ -12,14 +12,14 @@ import ed_usuario
 #definicion de la pantalla
 pantalla = Tk()
 pantalla.resizable(1,1)
-pantalla.geometry("1200x700")
+pantalla.geometry("1200x700")	
 pantalla.config(background="Light Sky Blue")
 pantalla.title("Ignorancia-BD")
 
-
+#imagen de la pista
 fon=PhotoImage(file=r"./im/pista.png")
 fond=Label(pantalla,image=fon,bg="Light Sky Blue", width=1200,height=600).place(x=0,y=150)
-
+#variables
 seleccion=()
 str_preg=StringVar()
 str_res1=StringVar()
@@ -39,15 +39,15 @@ gano3= FALSE
 gano4= FALSE
 
 
-
-def poder_jugar():
+#funcion para que si o si se necesite tener los jugadores definidos para poder jugar
+def poder_jugar():#si el usuario tiene el texto y no se ah cambiado a los nombres definidos de jugadores va avisar que los defina
 	if ed_usuario.jugador1 == "Defina los jugadores" or ed_usuario.jugador2 == "Defina los jugadores" or ed_usuario.jugador3 == "Defina los jugadores":
 		messagebox.showwarning("Aviso", "Defina todos los jugadores para poder jugar")
 		return False
 
 	else:
 		return True
-
+#actualiza el nombre de los jugadores en el juego
 def actualizar_jugador():
 	if turno == 1:
 		str_sig.set(str("jugador " + ed_usuario.jugador1))
@@ -57,7 +57,7 @@ def actualizar_jugador():
 
 	elif turno == 3:
 		str_sig.set(str("jugador " + ed_usuario.jugador3))
-
+#funcion para que los jugadores puedan avanzar
 def avanza_jug():
 	global x1,x2,x3
 	if turno==1:
@@ -72,8 +72,8 @@ def avanza_jug():
 		j3.place(x=x3,y=470)
 
 
-
-def opc1():
+#opcion 1 de la pregunta
+def opc1():#si los jugadores no estan definidos no se podra seleccionar ninguna pregunta
 	if not poder_jugar():
 		return
 	global turno,x4
@@ -81,7 +81,7 @@ def opc1():
 	r2.config(state=DISABLED)
 	r3.config(state=DISABLED)
 	r4.config(state=DISABLED)
-	if correcto==1:
+	if correcto==1:#se le llama a la funcion avanza jug
 		avanza_jug()
 	else:
 		x4=x4+100
@@ -89,8 +89,8 @@ def opc1():
 	turno=turno+1
 	if turno>3:
 		turno=1
-	actualizar_jugador()
-
+	actualizar_jugador()# se actualiza el nombre de los jugadores
+#opcion 2 
 def opc2():
 	if not poder_jugar():
 		return
@@ -108,7 +108,7 @@ def opc2():
 	if turno>3:
 		turno=1
 	actualizar_jugador()
-
+#opcion 3
 def opc3():
 	if not poder_jugar():
 		return
@@ -126,7 +126,7 @@ def opc3():
 	if turno>3:
 		turno=1
 	actualizar_jugador()
-
+#opcion 4
 def opc4(): 
 	if not poder_jugar():
 		return
@@ -145,7 +145,7 @@ def opc4():
 		turno=1
 	actualizar_jugador()
 
-
+#funcion generar la pregunta de manera aleatoria y sus repuestas y que esta correcto
 def sel_preg():
 	global str_preg
 	global correcto
@@ -175,7 +175,7 @@ def sel_preg():
 		r4.config(state=DISABLED)
 
 	#pantalla.update()
-
+#obtiene las preguntas de la base de datos
 def preguntas(event):
 	global seleccion
 	cat = event.widget.get()
@@ -187,7 +187,7 @@ def preguntas(event):
 	seleccion=recupera_preguntas(cat)
 	sel_preg()
 
-
+#hace que cambie la pregunta
 def pregunta_sig():
 	if not poder_jugar():
 		return
@@ -200,10 +200,10 @@ def pregunta_sig():
 	cat=str(cat).replace("_"," ")
 	seleccion=recupera_preguntas(cat)
 	sel_preg()
-
+#funcion para editar las categorias
 def edita_categoria(): # 1
 	manipula_categorias()
-
+#funcion para editar los usuarios y manipularlos
 def edita_usuario(): # 2
 	manipula_usuarios()
 	actualizar_jugador()
@@ -217,7 +217,7 @@ cats=[]
 for cat in l_cats:
 	cat2=str(cat[0]).replace(" ","_")
 	cats.append(cat2)
-
+#funcin de cuadno gana un jugador
 def gano():
 	if x1>=1100:
 		messagebox.showinfo("Fin del juego", "Gana el jugador 1")
@@ -233,7 +233,7 @@ eti = Label(pantalla, bg="Light Sky Blue", text="Categorias", font='Helvetica 18
 eti.place(x=10, y=10)
 categorias=ttk.Combobox(pantalla,font='Helvetica 18 bold')
 categorias['values']=cats
-categorias.place(x=150, y=10)
+categorias.place(x=150, y=10)#muestra la pregunta y categorias en cajas
 categorias.bind("<<ComboboxSelected>>", preguntas)
 
 ##procedimientos main
@@ -245,59 +245,60 @@ categorias=ttk.Combobox(pantalla,font='Helvetica 18 bold')
 categorias['values']=cats
 categorias.place(x=150, y=10)
 categorias.bind("<<ComboboxSelect>>", preguntas)
-
+#boton de siguiente
 siguiente=PhotoImage(file=r"./im/siguiente.png")
 sig = Button(pantalla, text="sig", image=siguiente, command=pregunta_sig, font='Helvetica 14 bold ',bg="Green", fg="white")
 sig.place(x=900, y=10)
-
+#boton de carpeta
 carpeta=PhotoImage(file=r"./im/carpeta.png")
 cat_categ = Button(pantalla, image=carpeta, command=edita_categoria, font='Helvetica 14 bold ',bg="Green", fg="white")
 cat_categ.place(x=950, y=10)
+#boton para editar usuarios
 usuario=PhotoImage(file=r"./im/usuario.png")
 usua = Button(pantalla, image=usuario, command=edita_usuario, font='Helvetica 14 bold ',bg="Green", fg="white")
 usua.place(x=1000, y=10)
-
+#actualiza el nombre del jugador asi como tambien lo muestra en la pantalla
 actualizar_jugador()
 sig_jug = Label(pantalla, bg="Light Sky Blue", textvariable=str_sig, font='Helvetica 18 bold')
 sig_jug.place(x=500, y=10)
-
+#muestra la el pregunta: la pregunta actual
 eti = Label(pantalla, bg="Light Sky Blue", text="Pregunta", font='Helvetica 18 bold')
 eti.place(x=10, y=60)
-
+#muestra la pregunta actual
 str_preg.set("")
 pre = Entry(pantalla, textvariable=str_preg, font='Helvetica 18 bold', bg="Lavender", width=100, state=DISABLED )
 pre.place(x=150, y=60)
-
+#boton de opcion 1
 str_res1.set("")
 r1 = Button(pantalla, textvariable=str_res1, command=opc1, font='Helvetica 14 bold',bg="blue", fg="white", width=20)
 r1.place(x=100, y=110)
-
+#boton de opc2
 str_res2.set("")
 r2 = Button(pantalla, textvariable=str_res2, command=opc2, font='Helvetica 14 bold',bg="blue", fg="white", width=20)
 r2.place(x=360, y=110)
-
+#boton de opc3
 str_res3.set("")
 r3 = Button(pantalla, textvariable=str_res3, command=opc3, font='Helvetica 14 bold',bg="blue", fg="white", width=20)
 r3.place(x=620, y=110)
-
+#boton de opc4
 str_res4.set("")
 r4 = Button(pantalla, textvariable=str_res4, command=opc4, font='Helvetica 14 bold',bg="blue", fg="white", width=20)
 r4.place(x=880, y=110)
-
+#jugador 1
 ju1=PhotoImage(file=r"./im/ju1.png")
 j1=Label(pantalla,image=ju1,bg="Light Sky Blue")
 j1.place(x=10, y=250)
-
+#jugador 2
 ju2=PhotoImage(file=r"./im/ju2.png")
 j2=Label(pantalla,image=ju2,bg="Light Sky Blue")
 j2.place(x=10, y=360)
-
+#jugador 3
 ju3=PhotoImage(file=r"./im/ju3.png")
 j3=Label(pantalla,image=ju3,bg="Light Sky Blue")
 j3.place(x=10,y=470)
-
+#jugador 4
 bur=PhotoImage(file=r"./im/ju4.png")
 bu=Label(pantalla,image=bur,bg="Light Sky Blue")
 bu.place(x=10,y=570)
-
+#mainloop de la pantalla
 pantalla.mainloop()

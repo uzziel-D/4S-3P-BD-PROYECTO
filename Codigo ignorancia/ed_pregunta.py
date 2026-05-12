@@ -3,7 +3,7 @@ from tkinter import *
 from tkinter import ttk
 from conecta_bd import *
 
-#Ventana para administrar las preguntas de una categoria
+#funcion para manipular las preguntas
 def manipula_preguntas(datos):
 	id=datos[0]
 	pantalla_pre=Toplevel()
@@ -27,7 +27,7 @@ def manipula_preguntas(datos):
 	marco_pre.place(x=20, y=250)
 	ver_sb=ttk.Scrollbar(marco_pre,orient="vertical")
 	ver_sb.pack(side=RIGHT, fill=Y)
-
+	#muestra la pregunta las opciones y la opc correcta
 	Tabl_pre = ttk.Treeview(marco_pre, columns=("preg","opc1","opc2","opc3","opc4","corr"), yscrollcommand=ver_sb.set)
 	Tabl_pre.column("#0",width=50)
 	Tabl_pre.column("preg",width=500 )
@@ -64,7 +64,7 @@ def manipula_preguntas(datos):
 		datos=(str_pre.get(),str_op1.get(),str_op2.get(),str_op3.get(),str_op4.get(),str_cor.get())
 		inserta_pregunta(datos,id)
 		recupera_preg(id)
-
+	#funcion para borrar preguntazs
 	def borra_pre():
 		ab=Tabl_pre.selection()[0]
 		borra_pregunta(ab)
@@ -75,7 +75,7 @@ def manipula_preguntas(datos):
 		datos=(str_pre.get(),str_op1.get(),str_op2.get(),str_op3.get(),str_op4.get(),str_cor.get())
 		modif_pregunta(ab,datos)
 		recupera_preg(id)
-		#deshabilita botones (modifica,baja)
+		
 
 	def selec_pre():
 		ab=Tabl_pre.selection()[0]
@@ -99,7 +99,7 @@ def manipula_preguntas(datos):
 	str_op4.set("")
 	str_cor.set("")
 
-#Etiquetas y cajas de texto para capturar datos 
+#cajas ed botones de categoria pregunta opciones y correcto para modificarlas
 	et1=Label(pantalla_pre,text="Categoria",bg="Light Sky Blue", font='Helvetica 14 bold ').place(x=20, y=20)
 	cate = Entry(pantalla_pre, textvariable=str_cat, font='Helvetica 14 bold ',bg="Lavender", width=50,state=DISABLED).place(x=120, y=60)
 
