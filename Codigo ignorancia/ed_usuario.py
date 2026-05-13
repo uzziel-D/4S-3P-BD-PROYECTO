@@ -10,7 +10,7 @@ def manipula_usuarios():
 
 	pantalla_user = Toplevel()
 	pantalla_user.resizable(1,1)
-	pantalla_user.geometry("700x400")
+	pantalla_user.geometry("720x470")
 	pantalla_user.config(background="Light Sky Blue")
 	pantalla_user.title("Catalogo de Usuarios")
 	str_user = StringVar()
@@ -52,6 +52,7 @@ def manipula_usuarios():
 			return
 		#para seleccionar al usuario segun su id
 		user_actual = sel[0]
+		str_user.set(Tab_user.item(user_actual)["values"][0])
 		print("Usuario seleccionado:", user_actual)
 		
 	#agrega al un usuario con la funcion inserta usuario pero si no se ingresa un nombre hara un print
@@ -86,6 +87,7 @@ def manipula_usuarios():
 		nombre = item["values"][0]
 
 		jugador1 = nombre
+		str_j1.set(jugador1)
 		print("Jugador 1:", jugador1)
 
 	
@@ -101,6 +103,7 @@ def manipula_usuarios():
 		nombre = item["values"][0]
 
 		jugador2 = nombre
+		str_j2.set(jugador2)
 		print("Jugador 2:", jugador2)
 
 
@@ -114,6 +117,7 @@ def manipula_usuarios():
 		nombre = item["values"][0]
 
 		jugador3 = nombre
+		str_j3.set(jugador3)
 		print("Jugador 3:", jugador3)
 
 
@@ -142,14 +146,24 @@ def manipula_usuarios():
 	btn_j3.place(x=180, y=90)
 
 	#nombre de los  jugadores definidos
-	jug = Label(pantalla_user, bg="Light Sky Blue", textvariable="jugador1", font='Helvetica 18 bold')
-	jug.place(x=500, y=300)
 
-	jug2 = Label(pantalla_user, bg="Light Sky Blue", textvariable="jugador2", font='Helvetica 18 bold')
-	jug2.place(x=500, y=250)
+	str_j1 = StringVar()
+	str_j1.set(jugador1)
 
-	jug3 = Label(pantalla_user, bg="Light Sky Blue", textvariable="jugador3", font='Helvetica 18 bold')
-	jug3.place(x=500, y=200)
+	str_j2 = StringVar()
+	str_j2.set(jugador2)
+
+	str_j3 = StringVar()
+	str_j3.set(jugador3)
+
+	jug = Label(pantalla_user, bg="green", textvariable=str_j1, font='Helvetica 18 bold')
+	jug.place(x=450, y=130)
+
+	jug2 = Label(pantalla_user, bg="green", textvariable=str_j2, font='Helvetica 18 bold')
+	jug2.place(x=450, y=200)
+
+	jug3 = Label(pantalla_user, bg="green", textvariable=str_j3, font='Helvetica 18 bold')
+	jug3.place(x=450, y=280)
 
 
 	recupera_db()

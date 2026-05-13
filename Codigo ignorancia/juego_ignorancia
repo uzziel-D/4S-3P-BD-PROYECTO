@@ -12,9 +12,10 @@ import ed_usuario
 #definicion de la pantalla
 pantalla = Tk()
 pantalla.resizable(1,1)
-pantalla.geometry("1200x700")	
+pantalla.geometry("1920x1080")
 pantalla.config(background="Light Sky Blue")
 pantalla.title("Ignorancia-BD")
+
 
 #imagen de la pista
 fon=PhotoImage(file=r"./im/pista.png")
@@ -232,6 +233,7 @@ def gano():
 eti = Label(pantalla, bg="Light Sky Blue", text="Categorias", font='Helvetica 18 bold')
 eti.place(x=10, y=10)
 categorias=ttk.Combobox(pantalla,font='Helvetica 18 bold')
+categorias.option_add('*TCombobox*Listbox.font', ('Helvetica', 18))
 categorias['values']=cats
 categorias.place(x=150, y=10)#muestra la pregunta y categorias en cajas
 categorias.bind("<<ComboboxSelected>>", preguntas)
@@ -247,15 +249,15 @@ categorias.place(x=150, y=10)
 categorias.bind("<<ComboboxSelect>>", preguntas)
 #boton de siguiente
 siguiente=PhotoImage(file=r"./im/siguiente.png")
-sig = Button(pantalla, text="sig", image=siguiente, command=pregunta_sig, font='Helvetica 14 bold ',bg="Green", fg="white")
+sig = Button(pantalla, text="sig", image=siguiente, command=pregunta_sig, font='Helvetica 14 bold ',bg="Green")
 sig.place(x=900, y=10)
 #boton de carpeta
 carpeta=PhotoImage(file=r"./im/carpeta.png")
-cat_categ = Button(pantalla, image=carpeta, command=edita_categoria, font='Helvetica 14 bold ',bg="Green", fg="white")
+cat_categ = Button(pantalla, image=carpeta, command=edita_categoria, font='Helvetica 14 bold ',bg="Green")
 cat_categ.place(x=950, y=10)
 #boton para editar usuarios
 usuario=PhotoImage(file=r"./im/usuario.png")
-usua = Button(pantalla, image=usuario, command=edita_usuario, font='Helvetica 14 bold ',bg="Green", fg="white")
+usua = Button(pantalla, image=usuario, command=edita_usuario, font='Helvetica 14 bold ',bg="Green")
 usua.place(x=1000, y=10)
 #actualiza el nombre del jugador asi como tambien lo muestra en la pantalla
 actualizar_jugador()
@@ -266,7 +268,7 @@ eti = Label(pantalla, bg="Light Sky Blue", text="Pregunta", font='Helvetica 18 b
 eti.place(x=10, y=60)
 #muestra la pregunta actual
 str_preg.set("")
-pre = Entry(pantalla, textvariable=str_preg, font='Helvetica 18 bold', bg="Lavender", width=100, state=DISABLED )
+pre = Entry(pantalla, textvariable=str_preg, font='Helvetica 18 bold', bg="Lavender", width=75, state=DISABLED )
 pre.place(x=150, y=60)
 #boton de opcion 1
 str_res1.set("")
