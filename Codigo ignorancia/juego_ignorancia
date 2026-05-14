@@ -4,6 +4,8 @@ import random
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
+from PIL import Image as Img#librerias para el diseño de la interfaz grafica
+from PIL import ImageTk
 from conecta_bd import *
 from ed_categoria import *
 from ed_usuario import *
@@ -17,10 +19,16 @@ pantalla.geometry("1920x1080")
 pantalla.config(background="Light Sky Blue")
 pantalla.title("Ignorancia-BD")
 
+ancho = pantalla.winfo_screenwidth()#para que se ajuste al ancho del monitor
+alto = 800
+lmg = Img.open(r"./im/pista.png")#fondo de pantalla
+lmg = lmg.resize((ancho, 1080))
 
-#imagen de la pista
-fon=PhotoImage(file=r"./im/pista.png")
-fond=Label(pantalla,image=fon,bg="Light Sky Blue", width=1920,height=700).place(x=0,y=170)
+fondo = ImageTk.PhotoImage(lmg)
+lbl_fondo = Label(pantalla, image=fondo)
+lbl_fondo.place(x=0, y=0)
+
+
 #variables
 seleccion=()
 str_preg=StringVar()
@@ -42,7 +50,7 @@ gano4= FALSE
 
 bien = "green"
 mal = "red"
-normal = "blue"
+normal = "light sky blue"
 
 #funcion para que si o si se necesite tener los jugadores definidos para poder jugar
 def poder_jugar():#si el usuario tiene el texto y no se ah cambiado a los nombres definidos de jugadores va avisar que los defina
@@ -87,18 +95,18 @@ def opc1():#si los jugadores no estan definidos no se podra seleccionar ninguna 
 	r3.config(state=DISABLED)
 	r4.config(state=DISABLED)
 	if correcto==1:#se le llama a la funcion avanza jug
-		r1.config(bg=bien, fg="black", disabledforeground="black")
-		avanza_jug()
+		r1.config(image= bbot,bg=bien, fg="black", disabledforeground="black")# pone la imagen del boton que esta bien cambia las letras a negro 
+		avanza_jug()# y tambien desabilita el 
 	else:
-		r1.config(bg=mal, fg="black", disabledforeground="black")
+		r1.config(image= mbot,bg=mal, fg="black", disabledforeground="black")
 		x4=x4+100
 		bu.place(x=x4, y=570)
 		if correcto==2:
-			r2.config(bg=bien, fg="black", disabledforeground="black")
+			r2.config(image= bbot,bg=bien, fg="black", disabledforeground="black")
 		elif correcto==3:
-			r3.config(bg=bien, fg="black", disabledforeground="black")
+			r3.config(image= bbot,bg=bien, fg="black", disabledforeground="black")
 		elif correcto==4:
-			r4.config(bg=bien, fg="black", disabledforeground="black")
+			r4.config(image= bbot,bg=bien, fg="black", disabledforeground="black")
 	turno=turno+1
 	if turno>3:
 		turno=1
@@ -113,18 +121,18 @@ def opc2():
 	r3.config(state=DISABLED)
 	r4.config(state=DISABLED)
 	if correcto==2:
-		r2.config(bg=bien, fg="black", disabledforeground="black")
+		r2.config(image= bbot,bg=bien, fg="black", disabledforeground="black")
 		avanza_jug()
 	else:
-		r2.config(bg=mal, fg="black", disabledforeground="black")
+		r2.config(image= mbot,bg=mal, fg="black", disabledforeground="black")
 		x4=x4+100
 		bu.place(x=x4, y=570)
 		if correcto==1:
-			r1.config(bg=bien, fg="black", disabledforeground="black")
+			r1.config(image= bbot,bg=bien, fg="black", disabledforeground="black")
 		elif correcto==3:
-			r3.config(bg=bien, fg="black", disabledforeground="black")
+			r3.config(image= bbot,	bg=bien, fg="black", disabledforeground="black")
 		elif correcto==4:
-			r4.config(bg=bien, fg="black", disabledforeground="black")
+			r4.config(image= bbot,bg=bien, fg="black", disabledforeground="black")
 	turno=turno+1
 	if turno>3:
 		turno=1
@@ -139,18 +147,18 @@ def opc3():
 	r3.config(state=DISABLED)
 	r4.config(state=DISABLED)
 	if correcto==3:
-		r3.config(bg=bien, fg="black", disabledforeground="black")
+		r3.config(image= bbot,bg=bien, fg="black", disabledforeground="black")
 		avanza_jug()
 	else:
-		r3.config(bg=mal, fg="black", disabledforeground="black")
+		r3.config(image= mbot,bg=mal, fg="black", disabledforeground="black")
 		x4=x4+100
 		bu.place(x=x4, y=570)
 		if correcto==1:
-			r1.config(bg=bien, fg="black", disabledforeground="black")
+			r1.config(image= bbot,bg=bien, fg="black", disabledforeground="black")
 		elif correcto==2:
-			r2.config(bg=bien, fg="black", disabledforeground="black")
+			r2.config(image= bbot,bg=bien, fg="black", disabledforeground="black")
 		elif correcto==4:
-			r4.config(bg=bien, fg="black", disabledforeground="black")
+			r4.config(image= bbot,bg=bien, fg="black", disabledforeground="black")
 	turno=turno+1
 	if turno>3:
 		turno=1
@@ -165,18 +173,18 @@ def opc4():
 	r3.config(state=DISABLED)
 	r4.config(state=DISABLED)
 	if correcto==4:
-		r4.config(bg=bien, fg="black", disabledforeground="black")
+		r4.config(image= bbot,bg=bien, fg="black", disabledforeground="black")
 		avanza_jug()
 	else:
-		r4.config(bg=mal, fg="black", disabledforeground="black")
+		r4.config(image= mbot,bg=mal, fg="black", disabledforeground="black")
 		x4=x4+100
 		bu.place(x=x4, y=570)
 		if correcto==1:
-			r1.config(bg=bien, fg="black", disabledforeground="black")
+			r1.config(image= bbot,bg=bien, fg="black", disabledforeground="black")
 		elif correcto==2:
-			r2.config(bg=bien, fg="black", disabledforeground="black")
+			r2.config(image= bbot,bg=bien, fg="black", disabledforeground="black")
 		elif correcto==3:
-			r3.config(bg=bien, fg="black", disabledforeground="black")
+			r3.config(image= bbot,bg=bien, fg="black", disabledforeground="black")
 	turno=turno+1
 	if turno>3:
 		turno=1
@@ -188,10 +196,10 @@ def sel_preg():
 	global correcto
 	tam=len(seleccion)
 	if tam!=0:
-		r1.config(bg=normal, fg="white")
-		r2.config(bg=normal, fg="white")
-		r3.config(bg=normal, fg="white")
-		r4.config(bg=normal, fg="white")
+		r1.config(image=ibot,bg="blue", fg="white", disabledforeground="white")
+		r2.config(image=ibot,bg="blue", fg="white", disabledforeground="white")
+		r3.config(image=ibot,bg="blue", fg="white", disabledforeground="white")
+		r4.config(image=ibot,bg="blue", fg="white", disabledforeground="white")
 		n = random.randint(0, tam-1)
 		#print(n)
 		str_preg.set(seleccion[n][1])
@@ -307,26 +315,36 @@ sig_jug.place(x=500, y=10)
 eti = Label(pantalla, bg="Light Sky Blue", text="Pregunta", font='Helvetica 18 bold')
 eti.place(x=10, y=60)
 #imagen del los botonees
-ibot= PhotoImage(file=r"./im/btnprueba.png")
+ibot= PhotoImage(file=r"./im/boton.png")
+mbot= PhotoImage(file=r"./im/botonM.png")
+bbot= PhotoImage(file=r"./im/botonB.png")
 #muestra la pregunta actual
 str_preg.set("")
 pre = Entry(pantalla, textvariable=str_preg, font='Helvetica 18 bold', bg="Lavender", width=75 , state=DISABLED )
 pre.place(x=150, y=60)
 #boton de opcion 1
 str_res1.set("")
-r1 = Button(pantalla,image=ibot, textvariable=str_res1, command=opc1, font='Helvetica 14 bold',bg="blue", fg="white", width=240, height=35)
+r1 = Button(pantalla,image=ibot, textvariable=str_res1,compound="center", command=opc1, font='Helvetica 24 bold',bg="blue", fg="white",
+			width=240, height=100,
+			wraplength=200,justify="center")
 r1.place(x=100, y=110)
 #boton de opc2
 str_res2.set("")
-r2 = Button(pantalla,image=ibot, textvariable=str_res2, command=opc2, font='Helvetica 14 bold',bg="blue", fg="white", width=240, height=35)
+r2 = Button(pantalla,image=ibot, textvariable=str_res2,compound="center", command=opc2, font='Helvetica 24 bold',bg="blue", fg="white",
+			width=240, height=100,
+			wraplength=200,justify="center")
 r2.place(x=360, y=110)
 #boton de opc3
 str_res3.set("")
-r3 = Button(pantalla,image=ibot, textvariable=str_res3, command=opc3, font='Helvetica 14 bold',bg="blue", fg="white", width=240, height=35)
+r3 = Button(pantalla,image=ibot, textvariable=str_res3,compound="center", command=opc3, font='Helvetica 24 bold',bg="blue", fg="white",
+			width=240, height=100,
+			wraplength=200,justify="center")
 r3.place(x=620, y=110)
 #boton de opc4
 str_res4.set("")
-r4 = Button(pantalla,image=ibot, textvariable=str_res4, command=opc4, font='Helvetica 14 bold',bg="blue", fg="white", width=240, height=35)
+r4 = Button(pantalla,image=ibot, textvariable=str_res4,compound="center", command=opc4, font='Helvetica 24 bold',bg="blue", fg="white",
+			width=240, height=100,
+			wraplength=200,justify="center")
 r4.place(x=880, y=110)
 #jugador 1
 ju1=PhotoImage(file=r"./im/ju1.png")
