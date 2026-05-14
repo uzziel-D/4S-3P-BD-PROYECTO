@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-04-2026 a las 20:03:36
+-- Tiempo de generación: 14-05-2026 a las 19:50:13
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -78,7 +78,9 @@ INSERT INTO `categoria` (`id_categoria`, `descripcion`) VALUES
 (7, 'español'),
 (8, 'ingles'),
 (9, 'filosofia'),
-(10, 'programacion');
+(10, 'programacion'),
+(14, 'jose'),
+(16, 'musica');
 
 -- --------------------------------------------------------
 
@@ -109,12 +111,12 @@ INSERT INTO `pregunta` (`id_pregunta`, `pregunta`, `opcion_1`, `opcion_2`, `opci
 (5, '¿Quién fundó la dinastía Qin y unificó China?', 'Kublai Kan', 'Sun Tzu', 'Confucio', 'Qin Shi Huang', 4, 1),
 (6, '¿Qué guerra se conoce como \"La Guerra de los Cien Años\"?', 'Guerra de Sucesión Española', 'Guerra Civil Inglesa', 'Guerra entre Inglaterra y Francia', 'Guerra de los Treinta Años', 3, 1),
 (7, '¿Quién fue la reina que derrotó a la Armada Invencible?', 'Victoria de Inglaterra', 'Catalina la Grande', 'María Antonieta', 'Isabel I de Inglaterra', 4, 1),
-(8, '¿En qué año se produjo la Reforma Protestante?', '1914', '1517', '1492', '1789', 2, 1),
+(8, '¿En qué año Cristóbal Colón llegó a América?', '1492', '1488', '1517', '1498', 3, 1),
 (9, '¿Qué emperador romano dividió el imperio en Oriente y Occidente?', 'Teodosio', 'Constantino', 'Diocleciano', 'Augusto', 3, 1),
-(10, '¿Quién descubrió el camino marítimo a la India?', 'Cristóbal Colón', 'Américo Vespucio', 'Vasco de Gama', 'Fernando de Magallanes', 3, 1),
+(10, '¿Quién fue el fundador del Imperio Otomano?', 'Lopez obrador', 'Selim I', 'Mehmed II', 'Osman I', 4, 1),
 (11, '¿En qué año tuvo lugar la Batalla de Lepanto?', '1492', '1571', '1605', '1588', 2, 1),
-(12, '¿Qué rey francés es conocido como el \"Rey Sol\"?', 'Luis XVI', 'Napoleón Bonaparte', 'Francisco I', 'Luis XIV', 4, 1),
-(13, '¿Quién fue el líder de la Revolución Haitiana?', 'José de San Martín', 'Simón Bolívar', 'Miguel Hidalgo', 'Toussaint Louverture', 4, 1),
+(12, '¿En qué año se produjo la Caída de Constantinopla?', '1453', '1492', '1571', '1620', 4, 1),
+(13, '¿Quién fue el primer presidente de la República de China?', 'reng xiopon', 'Deng Xiaoping', 'Mao Zedong', 'Sun Yat-sen', 4, 1),
 (14, '¿En qué año se independizó Grecia del Imperio Otomano?', '1830', '1848', '1821', '1861', 3, 1),
 (15, '¿Qué tratado puso fin a la Guerra de Independencia de Estados Unidos?', 'Tratado de Versalles', 'Tratado de Utrecht', 'Tratado de París', 'Tratado de Tordesillas', 3, 1),
 (16, '¿Quién fue el primer emperador del Sacro Imperio Romano Germánico?', 'Federico Barbarroja', 'Carlomagno', 'Otón I', 'Carlos V', 2, 1),
@@ -501,7 +503,7 @@ INSERT INTO `pregunta` (`id_pregunta`, `pregunta`, `opcion_1`, `opcion_2`, `opci
 (397, '¿Qué número es divisible entre 11 y menor que 100?', '22', '33', 'Todas las anteriores', '44', 3, 2),
 (398, '¿Cuánto es 7.75 × 4?', '31', '28', '37', '34', 1, 2),
 (399, '¿Cuál es el resultado de 150 ÷ 10 × 7?', '150', '10', '1050', '105', 4, 2),
-(400, '¿Cuánto es 1/6 de 360?', '70', '50', '60', '40', 3, 2),
+(400, '¿Cuál es el resultado de 2+2?', '1', '10', '1050', '4', 4, 2),
 (401, '¿Cuál es el país más grande de América del Norte?', 'Estados Unidos', 'Canadá', 'México', 'Groenlandia', 2, 3),
 (402, '¿En qué continente está Islandia?', 'América', 'Europa', 'Oceanía', 'Asia', 2, 3),
 (403, '¿Cuál es la capital de Corea del Sur?', 'Incheon', 'Busan', 'Daegu', 'Seúl', 4, 3),
@@ -599,9 +601,9 @@ INSERT INTO `pregunta` (`id_pregunta`, `pregunta`, `opcion_1`, `opcion_2`, `opci
 (495, '¿Qué país tiene más población en el sudeste asiático?', 'Indonesia', 'Filipinas', 'Tailandia', 'Vietnam', 1, 3),
 (496, '¿En qué continente se encuentra el río Danubio?', 'Asia', 'Europa', 'América', 'África', 2, 3),
 (497, '¿Cuál es la capital de Moldavia?', 'Chisináu', 'Bucarest', 'Kiev', 'Minsk', 1, 3),
-(498, '¿Qué país tiene más superficie en el Caribe?', 'Cuba', 'Haití', 'Jamaica', 'República Dominicana', 1, 3);
+(498, '¿Qué país tiene más superficie en el Caribe?', 'Cuba', 'Haití', 'Jamaica', 'República Dominicana', 1, 3),
+(499, '¿En qué país se encuentra el lago Baikal?', 'Rusia', 'China', 'Kazajistán', 'Mongolia', 1, 3);
 INSERT INTO `pregunta` (`id_pregunta`, `pregunta`, `opcion_1`, `opcion_2`, `opcion_3`, `opcion_4`, `correcto`, `id_categoria`) VALUES
-(499, '¿En qué país se encuentra el lago Baikal?', 'Rusia', 'China', 'Kazajistán', 'Mongolia', 1, 3),
 (500, '¿Cuál es la capital de Namibia?', 'Gaborone', 'Lusaka', 'Harare', 'Windhoek', 4, 3),
 (501, '¿En qué país se encuentra el delta del Nilo?', 'Libia', 'Sudán', 'Egipto', 'Etiopía', 3, 3),
 (502, '¿Cuál es la capital de Botsuana?', 'Maputo', 'Harare', 'Gaborone', 'Lilongüe', 3, 3),
@@ -1117,9 +1119,9 @@ INSERT INTO `pregunta` (`id_pregunta`, `pregunta`, `opcion_1`, `opcion_2`, `opci
 (1012, '¿Qué proceso produce energía en la célula?', 'Fotosíntesis', 'Respiración celular', 'Digestión', 'Reproducción', 2, 6),
 (1013, '¿Qué proceso usan las plantas para producir alimento?', 'Digestión', 'Fermentación', 'Fotosíntesis', 'Respiración', 3, 6),
 (1014, '¿Qué gas consumen las plantas?', 'CO2', 'Hidrógeno', 'Oxígeno', 'Nitrógeno', 1, 6),
-(1015, '¿Qué gas producen las plantas?', 'Nitrógeno', 'CO2', 'Helio', 'Oxígeno', 4, 6);
+(1015, '¿Qué gas producen las plantas?', 'Nitrógeno', 'CO2', 'Helio', 'Oxígeno', 4, 6),
+(1016, '¿Qué es un organismo unicelular?', 'Sin células', 'Muchas células', 'Complejo', 'Una célula', 4, 6);
 INSERT INTO `pregunta` (`id_pregunta`, `pregunta`, `opcion_1`, `opcion_2`, `opcion_3`, `opcion_4`, `correcto`, `id_categoria`) VALUES
-(1016, '¿Qué es un organismo unicelular?', 'Sin células', 'Muchas células', 'Complejo', 'Una célula', 4, 6),
 (1017, '¿Qué es un organismo pluricelular?', 'Simple', 'Muchas células', 'Sin núcleo', 'Una célula', 2, 6),
 (1018, '¿Qué sistema transporta sangre?', 'Digestivo', 'Respiratorio', 'Circulatorio', 'Nervioso', 3, 6),
 (1019, '¿Qué órgano bombea sangre?', 'Corazón', 'Hígado', 'Riñón', 'Pulmón', 1, 6),
@@ -1659,10 +1661,10 @@ INSERT INTO `pregunta` (`id_pregunta`, `pregunta`, `opcion_1`, `opcion_2`, `opci
 (1553, 'What is register?', 'Level of formality', 'Error', 'Word', 'Sentence', 1, 8),
 (1554, 'What is formal language?', 'Professional tone', 'Slang', 'Casual tone', 'Informal', 1, 8),
 (1555, 'What is informal language?', 'Formal', 'Academic', 'Casual tone', 'Professional', 3, 8),
-(1556, 'What is slang?', 'Informal expressions', 'Formal', 'Scientific', 'Academic', 1, 8);
-INSERT INTO `pregunta` (`id_pregunta`, `pregunta`, `opcion_1`, `opcion_2`, `opcion_3`, `opcion_4`, `correcto`, `id_categoria`) VALUES
+(1556, 'What is slang?', 'Informal expressions', 'Formal', 'Scientific', 'Academic', 1, 8),
 (1557, 'What is discourse?', 'Error', 'Connected speech/text', 'Letter', 'Word', 2, 8),
-(1558, 'What is cohesion device?', 'Connector word', 'Verb', 'Noun', 'Adjective', 1, 8),
+(1558, 'What is cohesion device?', 'Connector word', 'Verb', 'Noun', 'Adjective', 1, 8);
+INSERT INTO `pregunta` (`id_pregunta`, `pregunta`, `opcion_1`, `opcion_2`, `opcion_3`, `opcion_4`, `correcto`, `id_categoria`) VALUES
 (1559, 'Which is cohesive device?', 'Book', 'Therefore', 'Blue', 'Run', 2, 8),
 (1560, 'What is ellipsis?', 'Error', 'Addition', 'Omission of words', 'Repetition', 3, 8),
 (1561, 'What is substitution?', 'Replace word', 'Repeat', 'Add', 'Delete', 1, 8),
@@ -2104,7 +2106,8 @@ INSERT INTO `pregunta` (`id_pregunta`, `pregunta`, `opcion_1`, `opcion_2`, `opci
 (1997, '¿Qué es despliegue?', 'Variable', 'Error', 'Publicar app', 'Dato', 3, 10),
 (1998, '¿Qué es un heap?', 'Cola', 'Pila', 'Lista', 'Estructura de montículo', 4, 10),
 (1999, '¿Qué es un hash table?', 'Grafo', 'Tabla de dispersión', 'Lista enlazada', 'Árbol binario', 2, 10),
-(2000, '¿Qué es un árbol binario?', 'Cada nodo tiene hasta 2 hijos', 'Cada nodo tiene 3 hijos', 'Sin hijos', 'Cada nodo tiene 1 hijo', 1, 10);
+(2000, '¿Qué es un árbol binario?', 'Cada nodo tiene hasta 2 hijos', 'Cada nodo tiene 3 hijos', 'Sin hijos', 'Cada nodo tiene 1 hijo', 1, 10),
+(2002, 'donde esta jose juan?', 'veracruz', 'paraguay', 'con el mencho', 'sinaloa', 3, 14);
 
 -- --------------------------------------------------------
 
@@ -2116,6 +2119,18 @@ CREATE TABLE `usuario` (
   `id_usuario` int(11) NOT NULL,
   `nombre` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `usuario`
+--
+
+INSERT INTO `usuario` (`id_usuario`, `nombre`) VALUES
+(1, 'Juan'),
+(2, 'Maria'),
+(3, 'jose'),
+(4, 'roberto'),
+(5, 'axel'),
+(6, 'asd');
 
 -- --------------------------------------------------------
 
@@ -2167,19 +2182,19 @@ ALTER TABLE `usuario_categoria`
 -- AUTO_INCREMENT de la tabla `categoria`
 --
 ALTER TABLE `categoria`
-  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_categoria` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `pregunta`
 --
 ALTER TABLE `pregunta`
-  MODIFY `id_pregunta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2001;
+  MODIFY `id_pregunta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2003;
 
 --
 -- AUTO_INCREMENT de la tabla `usuario`
 --
 ALTER TABLE `usuario`
-  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_usuario` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Restricciones para tablas volcadas
