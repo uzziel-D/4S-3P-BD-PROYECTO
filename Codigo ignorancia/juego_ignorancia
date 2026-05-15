@@ -18,17 +18,16 @@ pantalla.resizable(1,1)
 pantalla.geometry("1920x1080")
 pantalla.config(background="Light Sky Blue")
 pantalla.title("Ignorancia-BD")
-
-ancho = pantalla.winfo_screenwidth()#para que se ajuste al ancho del monitor
-alto = 800
-lmg = Img.open(r"./im/pista.png")#fondo de pantalla
-lmg = lmg.resize((ancho, 1080))
-
-fondo = ImageTk.PhotoImage(lmg)
-lbl_fondo = Label(pantalla, image=fondo)
-lbl_fondo.place(x=0, y=0)
-
-
+#para manipular de mejor manera la imagen de la pista
+lmg = Img.open(r"./im/pista.png")#abre la imagen de la pista para que se carge
+lmg = lmg.resize((1920, 1080))#cambia el tamaño
+fondo = ImageTk.PhotoImage(lmg)#cambia la imagen en un pillow para que se pueda usar en un canvas
+#Un canvas en un lienzo en blanco el cual puedes rellenar o puedes dejarlo y no va ver nada en este caso se usa para 
+#que los canvas de los jugadores sean tambien trasnparentes y no se vea el fondo blanco que genera automaticamente TK al no tener un BG
+canvas = Canvas(pantalla, width=1920, height=1080, highlightthickness=0)#crea la imagen en canvas con el tamaño y sin bordes
+canvas.place(x=0, y=0)#coloca el canvas
+canvas.create_image(0, 0, image=fondo, anchor="nw")# mete la imagen de la pista en el canvas para que despues no de problemas con otros canvas
+				#0,0 es posicion y "nw" se refiere a la esquina superior de la pantalla
 #variables
 seleccion=()
 str_preg=StringVar()
@@ -62,6 +61,7 @@ def poder_jugar():#si el usuario tiene el texto y no se ah cambiado a los nombre
 		return True
 #actualiza el nombre de los jugadores en el juego
 def actualizar_jugador():
+	print(str_sig)
 	if turno == 1:
 		str_sig.set(str("jugador " + ed_usuario.jugador1))
 
@@ -75,14 +75,14 @@ def avanza_jug():
 	global x1,x2,x3
 	if turno==1:
 		x1=x1+100
-		j1.place(x=x1,y=250)
+		canvas.coords(j1,x1,315)
 	elif turno==2:
 		x2=x2+100
-		j2.place(x=x2,y=360)
+		canvas.coords(j2,x2,430)
 
 	elif turno==3:
 		x3=x3+100
-		j3.place(x=x3,y=470)
+		canvas.coords(j3,x3,550)
 
 
 #opcion 1 de la pregunta
@@ -100,7 +100,7 @@ def opc1():#si los jugadores no estan definidos no se podra seleccionar ninguna 
 	else:
 		r1.config(image= mbot,bg=mal, fg="black", disabledforeground="black")
 		x4=x4+100
-		bu.place(x=x4, y=570)
+		canvas.coords(bu,x4,650)
 		if correcto==2:
 			r2.config(image= bbot,bg=bien, fg="black", disabledforeground="black")
 		elif correcto==3:
@@ -126,7 +126,7 @@ def opc2():
 	else:
 		r2.config(image= mbot,bg=mal, fg="black", disabledforeground="black")
 		x4=x4+100
-		bu.place(x=x4, y=570)
+		canvas.coords(bu,x4,650)
 		if correcto==1:
 			r1.config(image= bbot,bg=bien, fg="black", disabledforeground="black")
 		elif correcto==3:
@@ -152,7 +152,7 @@ def opc3():
 	else:
 		r3.config(image= mbot,bg=mal, fg="black", disabledforeground="black")
 		x4=x4+100
-		bu.place(x=x4, y=570)
+		canvas.coords(bu,x4,650)
 		if correcto==1:
 			r1.config(image= bbot,bg=bien, fg="black", disabledforeground="black")
 		elif correcto==2:
@@ -178,7 +178,7 @@ def opc4():
 	else:
 		r4.config(image= mbot,bg=mal, fg="black", disabledforeground="black")
 		x4=x4+100
-		bu.place(x=x4, y=570)
+		canvas.coords(bu,x4,650)
 		if correcto==1:
 			r1.config(image= bbot,bg=bien, fg="black", disabledforeground="black")
 		elif correcto==2:
@@ -297,16 +297,19 @@ categorias.place(x=150, y=10)
 categorias.bind("<<ComboboxSelect>>", preguntas)
 #boton de siguiente
 siguiente=PhotoImage(file=r"./im/siguiente.png")
-sig = Button(pantalla, text="sig", image=siguiente, command=pregunta_sig, font='Helvetica 14 bold ',bg="Green")
-sig.place(x=900, y=10)
+sig = Button(pantalla, text="sig", image=siguiente, command=pregunta_sig, font='Helvetica 14 bold ',bg="Green", width=270, height= 40,borderwidth=0)
+sig.place(x=870, y=11)
+
+
 #boton de carpeta
 carpeta=PhotoImage(file=r"./im/carpeta.png")
-cat_categ = Button(pantalla, image=carpeta, command=edita_categoria, font='Helvetica 14 bold ',bg="Green")
-cat_categ.place(x=950, y=10)
+cat_categ = Button(pantalla, image=carpeta, command=edita_categoria, font='Helvetica 14 bold ', width=80, height= 80,borderwidth=0)
+cat_categ.place(x=1170, y=30)
 #boton para editar usuarios
 usuario=PhotoImage(file=r"./im/usuario.png")
-usua = Button(pantalla, image=usuario, command=edita_usuario, font='Helvetica 14 bold ',bg="Green")
-usua.place(x=1000, y=10)
+usua = Button(pantalla, image=usuario, command=edita_usuario, font='Helvetica 14 bold ',bg="Green",width=80, height= 80)
+usua.place(x=1170, y=130)
+
 #actualiza el nombre del jugador asi como tambien lo muestra en la pantalla
 actualizar_jugador()
 sig_jug = Label(pantalla, bg="Light Sky Blue", textvariable=str_sig, font='Helvetica 18 bold')
@@ -320,8 +323,11 @@ mbot= PhotoImage(file=r"./im/botonM.png")
 bbot= PhotoImage(file=r"./im/botonB.png")
 #muestra la pregunta actual
 str_preg.set("")
-pre = Entry(pantalla, textvariable=str_preg, font='Helvetica 18 bold', bg="Lavender", width=75 , state=DISABLED )
+pre = Entry(pantalla, textvariable=str_preg, font='Helvetica 18 bold', bg="Lavender", width=75 , state=DISABLED, )
 pre.place(x=150, y=60)
+
+
+#-----------------------------------------BOTONES DE OPCIONES-----------------------------------------
 #boton de opcion 1
 str_res1.set("")
 r1 = Button(pantalla,image=ibot, textvariable=str_res1,compound="center", command=opc1, font='Helvetica 24 bold',bg="blue", fg="white",
@@ -346,21 +352,18 @@ r4 = Button(pantalla,image=ibot, textvariable=str_res4,compound="center", comman
 			width=240, height=100,
 			wraplength=200,justify="center")
 r4.place(x=880, y=110)
+#-----------------------------------------JUGADORES-----------------------------------------
 #jugador 1
-ju1=PhotoImage(file=r"./im/ju1.png")
-j1=Label(pantalla,image=ju1)
-j1.place(x=10, y=250)
+ju1=PhotoImage(file=r"./im/ju1.png")#crea la imagen
+j1 = canvas.create_image(10, 315, image=ju1, anchor="nw")#mete la imagen en un canvas para que sea transparente
 #jugador 2
 ju2=PhotoImage(file=r"./im/ju2.png")
-j2=Label(pantalla,image=ju2)
-j2.place(x=10, y=360)
+j2 = canvas.create_image(30, 430, image=ju2, anchor="nw")
 #jugador 3
 ju3=PhotoImage(file=r"./im/ju3.png")
-j3=Label(pantalla,image=ju3)
-j3.place(x=10,y=470)
+j3 = canvas.create_image(20,550, image=ju3, anchor="nw")
 #jugador 4
 bur=PhotoImage(file=r"./im/ju4.png")
-bu=Label(pantalla,image=bur)
-bu.place(x=10,y=570)
+bu = canvas.create_image(15,650, image=bur, anchor="nw")
 #mainloop de la pantalla
 pantalla.mainloop()
