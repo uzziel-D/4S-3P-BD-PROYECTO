@@ -46,10 +46,22 @@ gano1= FALSE
 gano2= FALSE
 gano3= FALSE
 gano4= FALSE
-
+emp = FALSE #bandera para que cuando el juego empiece
 bien = "green"
 mal = "red"
 normal = "light sky blue"
+
+def Empezar_juego():
+	global emp
+	if not poder_jugar():
+		return	
+	empezar = messagebox.askyesno("una vez que inicie el juego no se podran modificar los nombres", "¿Desea empezar el juego?")
+	if empezar == True:
+		sel_preg()
+		emp = TRUE
+		usua.config(state=DISABLED)
+	else:
+		return
 
 #funcion para que si o si se necesite tener los jugadores definidos para poder jugar
 def poder_jugar():#si el usuario tiene el texto y no se ah cambiado a los nombres definidos de jugadores va avisar que los defina
@@ -59,7 +71,7 @@ def poder_jugar():#si el usuario tiene el texto y no se ah cambiado a los nombre
 
 	else:
 		return True
-#actualiza el nombre de los jugadores en el juego
+#actualiza el nombre de los jugadores en el juego	
 def actualizar_jugador():
 	print(str_sig)
 	if turno == 1:
@@ -83,11 +95,10 @@ def avanza_jug():
 	elif turno==3:
 		x3=x3+100
 		canvas.coords(j3,x3,550)
-
-
 #opcion 1 de la pregunta
 def opc1():#si los jugadores no estan definidos no se podra seleccionar ninguna pregunta
-	if not poder_jugar():
+	if emp == FALSE:
+		messagebox.showwarning("Aviso", "Debe iniciar el juego")
 		return
 	global turno,x4
 	r1.config(state=DISABLED)
@@ -113,7 +124,8 @@ def opc1():#si los jugadores no estan definidos no se podra seleccionar ninguna 
 	actualizar_jugador()# se actualiza el nombre de los jugadores
 #opcion 2 
 def opc2():
-	if not poder_jugar():
+	if emp == FALSE:
+		messagebox.showwarning("Aviso", "Debe iniciar el juego")
 		return
 	global turno,x4
 	r1.config(state=DISABLED)
@@ -139,7 +151,8 @@ def opc2():
 	actualizar_jugador()
 #opcion 3
 def opc3():
-	if not poder_jugar():
+	if emp == FALSE:
+		messagebox.showwarning("Aviso", "Debe iniciar el juego")
 		return
 	global turno,x4
 	r1.config(state=DISABLED)
@@ -165,7 +178,8 @@ def opc3():
 	actualizar_jugador()
 #opcion 4
 def opc4(): 
-	if not poder_jugar():
+	if emp == FALSE:
+		messagebox.showwarning("Aviso", "Debe iniciar el juego")
 		return
 	global turno,x4
 	r1.config(state=DISABLED)
@@ -238,7 +252,8 @@ def preguntas(event):
 
 #hace que cambie la pregunta
 def pregunta_sig():
-	if not poder_jugar():
+	if emp == FALSE:
+		messagebox.showwarning("Aviso", "Debe iniciar el juego")
 		return
 	global seleccion
 	cat = categorias.get()
@@ -286,6 +301,11 @@ categorias['values']=cats
 categorias.place(x=150, y=10)#muestra la pregunta y categorias en cajas
 categorias.bind("<<ComboboxSelected>>", preguntas)
 
+
+#Boton para empezar juego
+empezar = Button(pantalla, text="Empezar Juego", command=Empezar_juego, font='Helvetica 14 bold ',bg="Green", width=20, height= 10)
+empezar.place(x=1200, y=11)
+
 ##procedimientos main
 cats=recupera_categoria()
 #definir entrada para las respuesta
@@ -295,13 +315,14 @@ categorias=ttk.Combobox(pantalla,font='Helvetica 18 bold')
 categorias['values']=cats
 categorias.place(x=150, y=10)
 categorias.bind("<<ComboboxSelect>>", preguntas)
+
+
 #boton de siguiente
 siguiente=PhotoImage(file=r"./im/siguiente.png")
 sig = Button(pantalla, text="sig", image=siguiente, command=pregunta_sig, font='Helvetica 14 bold ',bg="Green", width=270, height= 40,borderwidth=0)
 sig.place(x=870, y=11)
 
-
-#boton de carpeta
+#boton para categorias
 carpeta=PhotoImage(file=r"./im/carpeta.png")
 cat_categ = Button(pantalla, image=carpeta, command=edita_categoria, font='Helvetica 14 bold ', width=80, height= 80,borderwidth=0)
 cat_categ.place(x=1170, y=30)
@@ -317,10 +338,14 @@ sig_jug.place(x=500, y=10)
 #muestra la el pregunta: la pregunta actual
 eti = Label(pantalla, bg="Light Sky Blue", text="Pregunta", font='Helvetica 18 bold')
 eti.place(x=10, y=60)
+
+
 #imagen del los botonees
 ibot= PhotoImage(file=r"./im/boton.png")
 mbot= PhotoImage(file=r"./im/botonM.png")
 bbot= PhotoImage(file=r"./im/botonB.png")
+
+
 #muestra la pregunta actual
 str_preg.set("")
 pre = Entry(pantalla, textvariable=str_preg, font='Helvetica 18 bold', bg="Lavender", width=75 , state=DISABLED, )
