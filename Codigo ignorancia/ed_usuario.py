@@ -87,7 +87,7 @@ def manipula_usuarios():
 		if not sel:
 			messagebox.showerror("Error", "Selecciona un usuario")
 			return
-		id_jugador1 = sel[0]
+		id_jugador1 = int(sel[0])
 		
 		if id_jugador1 == id_jugador2 or id_jugador1 == id_jugador3:
 			messagebox.showerror("Error", "El jugador ya ha sido seleccionado. Por favor, elige otro usuario.")
@@ -98,10 +98,7 @@ def manipula_usuarios():
 
 		jugador1 = nombre
 		str_j1.set(jugador1)
-		print("Jugador 1:", jugador1)
-		print("id del jugador 1:", id_jugador1)
 
-	
 
 	
 	def asignar_j2():
@@ -110,7 +107,7 @@ def manipula_usuarios():
 		if not sel:
 			print("Selecciona un usuario")
 			return
-		id_jugador2 = sel[0]
+		id_jugador2 = int(sel[0])
 		
 		if id_jugador2 == id_jugador1 or id_jugador2 == id_jugador3:
 			messagebox.showerror("Error", "El jugador ya ha sido seleccionado. Por favor, elige otro usuario.")
@@ -121,8 +118,7 @@ def manipula_usuarios():
 
 		jugador2 = nombre
 		str_j2.set(jugador2)
-		print("Jugador 2:", jugador2)
-		print("id jugador2:", id_jugador2)
+
 
 	def asignar_j3():
 		global jugador3,id_jugador3
@@ -130,17 +126,16 @@ def manipula_usuarios():
 		if not sel:
 			print("Selecciona un usuario")
 			return
-		id_jugador3 = sel[0]
+		id_jugador3 = int(sel[0])
 		if id_jugador3 == id_jugador1 or id_jugador3 == id_jugador2:
 			messagebox.showerror("Error", "El jugador ya ha sido seleccionado. Por favor, elige otro usuario.")
 			return
 		item = Tab_user.item(sel[0])
 		nombre = item["values"][0]
-		print("id jugador 3:",id_jugador3)
 
 		jugador3 = nombre
 		str_j3.set(jugador3)
-		print("Jugador 3:", jugador3)
+		
 
 
 	str_user.set("")

@@ -20,7 +20,9 @@ pantalla.config(background="Light Sky Blue")
 pantalla.title("Ignorancia-BD")
 #para manipular de mejor manera la imagen de la pista
 lmg = Img.open(r"./im/pista.png")#abre la imagen de la pista para que se carge
-lmg = lmg.resize((1920, 1080))#cambia el tamaño
+ancho = pantalla.winfo_screenwidth()#obtiene el ancho de la pantalla
+alto = pantalla.winfo_screenheight()#obtiene el alto de la pantalla	
+lmg = lmg.resize((ancho, 1080))#cambia el tamaño
 fondo = ImageTk.PhotoImage(lmg)#cambia la imagen en un pillow para que se pueda usar en un canvas
 #Un canvas en un lienzo en blanco el cual puedes rellenar o puedes dejarlo y no va ver nada en este caso se usa para 
 #que los canvas de los jugadores sean tambien trasnparentes y no se vea el fondo blanco que genera automaticamente TK al no tener un BG
@@ -55,7 +57,10 @@ def Empezar_juego():
 	global emp
 	if not poder_jugar():
 		return	
-	empezar = messagebox.askyesno("una vez que inicie el juego no se podran modificar los nombres", "¿Desea empezar el juego?")
+	if emp == TRUE:
+		messagebox.showwarning("Aviso", "El juego ya ha empezado")
+		return
+	empezar = messagebox.askyesno("AVISO", "una vez que inicie el juego no se podran modificar los nombres ¿Desea empezar el juego?")
 	if empezar == True:
 		sel_preg()
 		emp = TRUE
@@ -205,8 +210,7 @@ def opc4():
 
 #funcion generar la pregunta de manera aleatoria y sus repuestas y que esta correcto
 def sel_preg():
-	global str_preg
-	global correcto
+	global str_preg,correcto,id_categoria
 	tam=len(seleccion)
 	if tam!=0:
 		r1.config(image=ibot,bg="blue", fg="white", disabledforeground="white")
@@ -220,11 +224,13 @@ def sel_preg():
 		str_res2.set(seleccion[n][3])
 		str_res3.set(seleccion[n][4])
 		str_res4.set(seleccion[n][5])
+		id_categoria= seleccion[n][7]
 		correcto=seleccion[n][6]
 		r1.config(state=NORMAL)
 		r2.config(state=NORMAL)
 		r3.config(state=NORMAL)
 		r4.config(state=NORMAL)
+		gano()
 	else:
 		str_preg.set('Categoria sin pregunta')
 		str_res1.set('')
@@ -280,17 +286,77 @@ cats=[]
 for cat in l_cats:
 	cat2=str(cat[0]).replace(" ","_")
 	cats.append(cat2)
+
 #funcin de cuadno gana un jugador
 def gano():
-	if x1>=1100:
-		messagebox.showinfo("Fin del juego", "Gana el jugador 1")
-	elif x2>=1100:
-		messagebox.showinfo("Fin del juego", "Gana el jugador 2")
-	elif x3>=1100:
-		messagebox.showinfo("Fin del juego", "Gana el jugador 3")
-	elif x4>=1100:
-		messagebox.showinfo("Fin del juego", "Gana el jugador 4")
+	global id_categoria
+	jugadores = [#AAAAAAA esto es pa obtener el id el nombre y la posicion del jugador para despues ordenarlos y dar los puntos segun su posicion
+		{"id": ed_usuario.id_jugador1,"nombre": ed_usuario.jugador1, "posicion": x1},
+		{"id": ed_usuario.id_jugador2,"nombre": ed_usuario.jugador2, "posicion": x2},
+		{"id": ed_usuario.id_jugador3,"nombre": ed_usuario.jugador3, "posicion": x3} ]
+	#oproceso para ordenar los numeros de menor a mayo i y despues invertirlos
+	posiciones = sorted(jugadores, key=lambda x: x["posicion"], reverse=True)
+	#si algun jugador llega a la meta entonces
+	if x1>=1410 or x2>=1410 or x3>=1410:
+		messagebox.showinfo("Fin del juego",
+		f"1 lugar: {posiciones[0]['nombre']}\n"
+		f"2 lugar: {posiciones[1]['nombre']}\n"
+		f"3 lugar: {posiciones[2]['nombre']}"
+		)
+		actualiza_puntos_usuario(posiciones[0]["id"], id_categoria, 3)
+		actualiza_puntos_usuario(posiciones[1]["id"], id_categoria, 2)
+		actualiza_puntos_usuario(posiciones[2]["id"], id_categoria, 1)
+	elif x4>=1410:
+		messagebox.showinfo("Fin del juego","La ignorancia gano"
+		)
+		print(posiciones)
 
+def reiniciar_juego():
+	global x1,x2,x3,x4
+	global turno
+	global emp
+	global correcto
+	if emp == FALSE:
+		messagebox.showwarning("Aviso", "NoF se ha iniciado el juego")
+		return
+	#reiniciar posiciones
+	x1=10
+	x2=10
+	x3=10
+	x4=10
+
+	#mover jugadores al inicio
+	canvas.coords(j1,x1,315)
+	canvas.coords(j2,x2,430)
+	canvas.coords(j3,x3,550)
+	canvas.coords(bu,x4,650)
+
+	#reiniciar turno
+	turno=1
+	actualizar_jugador()
+
+	#reiniciar variables
+	correcto=0
+	emp=FALSE
+
+	#limpiar pregunta y respuestas
+	str_preg.set("")
+	str_res1.set("")
+	str_res2.set("")
+	str_res3.set("")
+	str_res4.set("")
+
+	#desactivar botones de respuestas
+	r1.config(state=DISABLED,image=ibot,bg="blue")
+	r2.config(state=DISABLED,image=ibot,bg="blue")
+	r3.config(state=DISABLED,image=ibot,bg="blue")
+	r4.config(state=DISABLED,image=ibot,bg="blue")
+
+	#activar boton usuarios otra vez
+	usua.config(state=NORMAL, image=usuario, bg="green")
+
+	#limpiar categoria
+	categorias.set("")
 
 eti = Label(pantalla, bg="Light Sky Blue", text="Categorias", font='Helvetica 18 bold')
 eti.place(x=10, y=10)
@@ -300,10 +366,6 @@ categorias['values']=cats
 categorias.place(x=150, y=10)#muestra la pregunta y categorias en cajas
 categorias.bind("<<ComboboxSelected>>", preguntas)
 
-
-#Boton para empezar juego
-empezar = Button(pantalla, text="Empezar Juego", command=Empezar_juego, font='Helvetica 14 bold ',bg="Green", width=20, height= 10)
-empezar.place(x=1200, y=11)
 
 ##procedimientos main
 cats=recupera_categoria()
@@ -351,6 +413,13 @@ str_preg.set("")
 pre = Entry(pantalla, textvariable=str_preg, font='Helvetica 18 bold', bg="Lavender", width=75 , state=DISABLED, )
 pre.place(x=150, y=60)
 
+#boton para reimiciar el juego
+reiniciar = Button(pantalla,text="Reiniciar",command=reiniciar_juego,font='Helvetica 14 bold',bg="orange",height=2, width=10)
+reiniciar.place(x=1270, y=130)
+
+#Boton para empezar juego
+empezar = Button(pantalla, text="Empezar Juego", command=Empezar_juego, font='Helvetica 14 bold ',bg="Green", height = 2)
+empezar.place(x=1270, y=40)
 
 #-----------------------------------------BOTONES DE OPCIONES-----------------------------------------
 #boton de opcion 1
