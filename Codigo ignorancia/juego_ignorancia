@@ -59,7 +59,7 @@ def Empezar_juego():
 	if empezar == True:
 		sel_preg()
 		emp = TRUE
-		usua.config(state=DISABLED)
+		usua.config(state=DISABLED, image=usuariox,bg="gray")
 	else:
 		return
 
@@ -73,7 +73,6 @@ def poder_jugar():#si el usuario tiene el texto y no se ah cambiado a los nombre
 		return True
 #actualiza el nombre de los jugadores en el juego	
 def actualizar_jugador():
-	print(str_sig)
 	if turno == 1:
 		str_sig.set(str("jugador " + ed_usuario.jugador1))
 
@@ -327,6 +326,7 @@ carpeta=PhotoImage(file=r"./im/carpeta.png")
 cat_categ = Button(pantalla, image=carpeta, command=edita_categoria, font='Helvetica 14 bold ', width=80, height= 80,borderwidth=0)
 cat_categ.place(x=1170, y=30)
 #boton para editar usuarios
+usuariox=PhotoImage(file=r"./im/usuarioX.png")
 usuario=PhotoImage(file=r"./im/usuario.png")
 usua = Button(pantalla, image=usuario, command=edita_usuario, font='Helvetica 14 bold ',bg="Green",width=80, height= 80)
 usua.place(x=1170, y=130)

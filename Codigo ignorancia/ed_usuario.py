@@ -1,10 +1,13 @@
 from tkinter import *
 from tkinter import ttk
+from tkinter import messagebox
 from conecta_bd import *
 jugador1 = "Defina los jugadores"
 jugador2 = "Defina los jugadores"
 jugador3 = "Defina los jugadores"
-
+id_jugador1 = 0
+id_jugador2 = 0
+id_jugador3 = 0
 
 def manipula_usuarios():
 
@@ -77,44 +80,63 @@ def manipula_usuarios():
 		recupera_db()
     	
 	def asignar_j1():
-		global jugador1
+		global jugador1,id_jugador1
+		#seleccion del usuario
 		sel = Tab_user.selection()
+		#en caso de que nomas le de al boton
 		if not sel:
-			print("Selecciona un usuario")
+			messagebox.showerror("Error", "Selecciona un usuario")
 			return
-	
+		id_jugador1 = sel[0]
+		
+		if id_jugador1 == id_jugador2 or id_jugador1 == id_jugador3:
+			messagebox.showerror("Error", "El jugador ya ha sido seleccionado. Por favor, elige otro usuario.")
+			return
+
 		item = Tab_user.item(sel[0])
 		nombre = item["values"][0]
 
 		jugador1 = nombre
 		str_j1.set(jugador1)
 		print("Jugador 1:", jugador1)
+		print("id del jugador 1:", id_jugador1)
 
 	
 
 	
 	def asignar_j2():
-		global jugador2
+		global jugador2,id_jugador2
 		sel = Tab_user.selection()
 		if not sel:
 			print("Selecciona un usuario")
 			return
+		id_jugador2 = sel[0]
+		
+		if id_jugador2 == id_jugador1 or id_jugador2 == id_jugador3:
+			messagebox.showerror("Error", "El jugador ya ha sido seleccionado. Por favor, elige otro usuario.")
+			return
+
 		item = Tab_user.item(sel[0])
 		nombre = item["values"][0]
 
 		jugador2 = nombre
 		str_j2.set(jugador2)
 		print("Jugador 2:", jugador2)
-
+		print("id jugador2:", id_jugador2)
 
 	def asignar_j3():
-		global jugador3
+		global jugador3,id_jugador3
 		sel = Tab_user.selection()
 		if not sel:
 			print("Selecciona un usuario")
 			return
+		id_jugador3 = sel[0]
+		if id_jugador3 == id_jugador1 or id_jugador3 == id_jugador2:
+			messagebox.showerror("Error", "El jugador ya ha sido seleccionado. Por favor, elige otro usuario.")
+			return
 		item = Tab_user.item(sel[0])
 		nombre = item["values"][0]
+		print("id jugador 3:",id_jugador3)
 
 		jugador3 = nombre
 		str_j3.set(jugador3)
