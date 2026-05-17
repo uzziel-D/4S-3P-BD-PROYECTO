@@ -114,6 +114,14 @@ def borra_categoria(ab):
 	cursor.execute('delete from categoria where Id_categoria=%s', (ab))
 	conn.commit()
 	conn.close()
+#funcion para borrar las  preguntas de una categoria
+def borra_preguntas_categoria(ab):
+	conn = pymysql.connect(host='localhost',user='root',passwd='', db='ignorancia')
+	cursor = conn.cursor()
+	#ejecuta un query para borrar todas las preguntas que pertenecen a una categoria usando el id de la categoria seleccionada
+	cursor.execute('delete from pregunta where id_categoria=%s', (ab,))
+	conn.commit()
+	conn.close()
 #funcion para seleccionar la categoria
 def selec_categoria(ab):
 	conn = pymysql.connect(host='localhost',user='root',passwd='', db='ignorancia')

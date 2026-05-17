@@ -51,9 +51,21 @@ def manipula_categorias():
 			return
 		
 		ab=Tab1_cat.selection()[0]
+		preguntas = tabla_pregunta(ab)#para checar si tiene pregunntas la categoria
+		if len(preguntas) > 0:#aqui preguntamos si quiere borrar la categoria aunqe tenga preguntas
+			resp = messagebox.askyesno(
+			"Advertencia",
+			"La categoria tiene preguntas asociadas.\n"
+			"Si la borras tambien se eliminaran todas las preguntas.\n\n"
+			"¿Desea continuar?"
+		)
+			if resp == False:#si elige que no la categoria no se borrara
+				return
+			#pero si no se cumple la condicion seguira y borrara las preguntas y la categoria
+			borra_preguntas_categoria(ab)
 		borra_categoria(ab)
 		recupera_db()
-		
+
 	#selecciona la categoria
 	def select_cat():
 		global datos
@@ -68,6 +80,10 @@ def manipula_categorias():
 		str_cat.set(datos[1])
 	#modifica la categoria
 	def modif_catsel():
+		if not Tab1_cat.selection():
+			print("no se selecciono una categoria")
+			messagebox.showwarning("Aviso", "Selecciona una categoría")
+			return
 		ab=Tab1_cat.selection()[0]
 		modif_categoria(ab,str_cat.get())
 		recupera_db()
@@ -78,8 +94,14 @@ def manipula_categorias():
 	#edita la pregunta
 	def edita_preguntas():
 		global datos
+
+		if datos ==():#Si los datos estan vacios no se ha seleccionado una categoria
+			print("no se selecciono una categoria")
+			messagebox.showwarning("Aviso", "Selecciona una categoría")
+			return
 		print(datos)
 		manipula_preguntas(datos)
+
 
 
 	str_cat.set("")
@@ -91,4 +113,3 @@ def manipula_categorias():
 	b_modif_cat=Button(pantalla_cat,text="Modifica categoria",command=modif_catsel,fg="white",bg="red4",font="Arial 12", width=20).place(x=180, y=60)
 	b_borra_cat=Button(pantalla_cat,text="Borrar categoria",command=borra_catsel,fg="white",bg="red4",font="Arial 12", width=20).place(x=390, y=60)
 	b_select_cat=Button(pantalla_cat,text="Selecciona Categoria",command=select_cat,fg="white",bg="red4",font="Arial 12",width=20).place(x=580, y=60)
-	pantalla_cat.mainloop()

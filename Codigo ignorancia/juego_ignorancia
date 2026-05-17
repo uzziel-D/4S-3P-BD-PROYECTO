@@ -366,18 +366,6 @@ categorias['values']=cats
 categorias.place(x=150, y=10)#muestra la pregunta y categorias en cajas
 categorias.bind("<<ComboboxSelected>>", preguntas)
 
-
-##procedimientos main
-cats=recupera_categoria()
-#definir entrada para las respuesta
-eti = Label(pantalla, bg="Light Sky BLue", text="Categorias", font='Helvetica 18 bold')
-eti.place(x=10, y=10)
-categorias=ttk.Combobox(pantalla,font='Helvetica 18 bold')
-categorias['values']=cats
-categorias.place(x=150, y=10)
-categorias.bind("<<ComboboxSelect>>", preguntas)
-
-
 #boton de siguiente
 siguiente=PhotoImage(file=r"./im/siguiente.png")
 sig = Button(pantalla, text="sig", image=siguiente, command=pregunta_sig, font='Helvetica 14 bold ',bg="Green", width=270, height= 40,borderwidth=0)
