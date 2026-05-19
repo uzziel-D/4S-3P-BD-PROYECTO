@@ -413,6 +413,27 @@ empezar = Button(pantalla, text="Empezar Juego", command=Empezar_juego, font='He
 empezar.place(x=1270, y=40)
 
 #-----------------------------------------BOTONES DE OPCIONES-----------------------------------------
+def actualiza_categoria():
+    global cats
+    #limpia lista anterior
+    cats.clear()
+    #recupera categorias de la bd
+    l_cats = recupera_categoria()
+    #recorre categorias recuperadas
+    for cat in l_cats:
+        cat2 = str(cat[0]).replace(" ", "_")
+        cats.append(cat2)
+    categorias['values'] = cats
+    categorias.update()
+    print(cats)
+
+
+#boton de update para las categorias
+b_actualizar = Button(pantalla, text="Actualizar", command = actualiza_categoria, bg="green", fg="white", font='Helvetica 12 bold'
+)
+b_actualizar.place(x=10, y=110)
+
+
 #boton de opcion 1
 str_res1.set("")
 r1 = Button(pantalla,image=ibot, textvariable=str_res1,compound="center", command=opc1, font='Helvetica 24 bold',bg="blue", fg="white",
