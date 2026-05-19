@@ -13,7 +13,7 @@ def manipula_categorias():
 	pantalla_cat.config(background="Light Sky Blue")
 	pantalla_cat.title("Catalogo de Categorias")
 	str_cat=StringVar()
-	datos=()
+	datos = ()
 	#marco para poner las cosas
 	marco_per=Frame(pantalla_cat)
 	marco_per.pack()
@@ -42,6 +42,9 @@ def manipula_categorias():
 	#funcion para agregar una categoria
 	def agrega_cat():
 		inserta_categoria(str_cat.get())
+		if str_cat.get() == "":#si el campo de texto esta vacio no se puede agregar una categoria
+			messagebox.showwarning("Aviso", "Ingresa una categoría")
+			return
 		recupera_db()
 	#borra la categoria
 	def borra_catsel():
@@ -68,7 +71,7 @@ def manipula_categorias():
 
 	#selecciona la categoria
 	def select_cat():
-		global datos
+		nonlocal datos #para que no se remplacen los datos de la categoria y no de problemas de seleccion despues
 		if not Tab1_cat.selection():
 			print("no se selecciono una categoria")
 			messagebox.showwarning("Aviso", "Selecciona una categoría")
@@ -78,6 +81,7 @@ def manipula_categorias():
 		datos=selec_categoria(ab)
 		print(datos)
 		str_cat.set(datos[1])
+
 	#modifica la categoria
 	def modif_catsel():
 		if not Tab1_cat.selection():
@@ -86,16 +90,22 @@ def manipula_categorias():
 			return
 		ab=Tab1_cat.selection()[0]
 		modif_categoria(ab,str_cat.get())
+		if str_cat.get() == "":#si el campo de texto esta vacio no se puede modificar la categoria
+			messagebox.showwarning("Aviso", "Ingresa una un nombre a cambiar la categoria")
+			return
 		recupera_db()
 
 	recupera_db()#2
 	et=Label(pantalla_cat,text="Categoria",bg="Light Sky Blue", font='Helvetica 14 bold')
 	et.place(x=20, y=20)
 	#edita la pregunta
-	def edita_preguntas():
-		global datos
 
-		if datos ==():#Si los datos estan vacios no se ha seleccionado una categoria
+	def edita_preguntas():
+		if not Tab1_cat.selection():#Si los datos estan vacios no se ha seleccionado una categoria
+			print("no se selecciono una categoria")
+			messagebox.showwarning("Aviso", "Selecciona una categoría")
+			return
+		if datos == ():#si los datos estan vacios no se ha seleccionado una categoria
 			print("no se selecciono una categoria")
 			messagebox.showwarning("Aviso", "Selecciona una categoría")
 			return

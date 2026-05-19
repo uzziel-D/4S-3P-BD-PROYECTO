@@ -38,34 +38,32 @@ str_res2=StringVar()
 str_res3=StringVar()
 str_res4=StringVar()
 str_sig=StringVar()
-correcto=0
+correcto=0#variable de correcto
+#variable de jugadores
 x1=10
 x2=10
 x3=10
 x4=10
 turno=1
-gano1= FALSE
-gano2= FALSE
-gano3= FALSE
-gano4= FALSE
 emp = FALSE #bandera para que cuando el juego empiece
 bien = "green"
 mal = "red"
 normal = "light sky blue"
 
-def Empezar_juego():
+def Empezar_juego():#funcion para para que el juego pueda empezar
 	global emp
-	if not poder_jugar():
+	if not poder_jugar():#si no se han definido los jugadores no se puede empezar el juego
 		return	
-	if emp == TRUE:
+	if emp == TRUE:#si el juego ya ha empezado no se puede volver a empezar
 		messagebox.showwarning("Aviso", "El juego ya ha empezado")
 		return
+	#muestra el mensaje 
 	empezar = messagebox.askyesno("AVISO", "una vez que inicie el juego no se podran modificar los nombres ¿Desea empezar el juego?")
 	if empezar == True:
 		sel_preg()
-		emp = TRUE
+		emp = TRUE #activa la bandera de que el juego ha empezado y desabilita el boton de usuariosw
 		usua.config(state=DISABLED, image=usuariox,bg="gray")
-	else:
+	else:#si le da que no
 		return
 
 #funcion para que si o si se necesite tener los jugadores definidos para poder jugar
@@ -76,9 +74,10 @@ def poder_jugar():#si el usuario tiene el texto y no se ah cambiado a los nombre
 
 	else:
 		return True
+
 #actualiza el nombre de los jugadores en el juego	
 def actualizar_jugador():
-	if turno == 1:
+	if turno == 1:#si el turno es del jugador uno entonces va a agarrar el nombre del jugador desde ed_usuario
 		str_sig.set(str("jugador " + ed_usuario.jugador1))
 
 	elif turno == 2:
@@ -86,6 +85,7 @@ def actualizar_jugador():
 
 	elif turno == 3:
 		str_sig.set(str("jugador " + ed_usuario.jugador3))
+
 #funcion para que los jugadores puedan avanzar
 def avanza_jug():
 	global x1,x2,x3
@@ -99,9 +99,10 @@ def avanza_jug():
 	elif turno==3:
 		x3=x3+100
 		canvas.coords(j3,x3,550)
+
 #opcion 1 de la pregunta
 def opc1():#si los jugadores no estan definidos no se podra seleccionar ninguna pregunta
-	if emp == FALSE:
+	if emp == FALSE:#si no ha empezado el juego
 		messagebox.showwarning("Aviso", "Debe iniciar el juego")
 		return
 	global turno,x4
@@ -224,7 +225,7 @@ def sel_preg():
 		str_res2.set(seleccion[n][3])
 		str_res3.set(seleccion[n][4])
 		str_res4.set(seleccion[n][5])
-		id_categoria= seleccion[n][7]
+		id_categoria= seleccion[n][7]#variable para obtener el id de la categoria
 		correcto=seleccion[n][6]
 		r1.config(state=NORMAL)
 		r2.config(state=NORMAL)
@@ -243,6 +244,7 @@ def sel_preg():
 		r4.config(state=DISABLED)
 
 	#pantalla.update()
+
 #obtiene las preguntas de la base de datos
 def preguntas(event):
 	global seleccion
@@ -290,7 +292,7 @@ for cat in l_cats:
 #funcin de cuadno gana un jugador
 def gano():
 	global id_categoria
-	jugadores = [#AAAAAAA esto es pa obtener el id el nombre y la posicion del jugador para despues ordenarlos y dar los puntos segun su posicion
+	jugadores = [#esto es pa obtener el id el nombre y la posicion del jugador para despues ordenarlos y dar los puntos segun su posicion
 		{"id": ed_usuario.id_jugador1,"nombre": ed_usuario.jugador1, "posicion": x1},
 		{"id": ed_usuario.id_jugador2,"nombre": ed_usuario.jugador2, "posicion": x2},
 		{"id": ed_usuario.id_jugador3,"nombre": ed_usuario.jugador3, "posicion": x3} ]
@@ -306,18 +308,18 @@ def gano():
 		actualiza_puntos_usuario(posiciones[0]["id"], id_categoria, 3)
 		actualiza_puntos_usuario(posiciones[1]["id"], id_categoria, 2)
 		actualiza_puntos_usuario(posiciones[2]["id"], id_categoria, 1)
-	elif x4>=1410:
+	elif x4>=1410:#en casso de que la ignorancia llegue a la meta nadie gana
 		messagebox.showinfo("Fin del juego","La ignorancia gano"
 		)
 		print(posiciones)
 
 def reiniciar_juego():
-	global x1,x2,x3,x4
+	global x1,x2,x3,x4#variablesde los jugadores y etc
 	global turno
 	global emp
 	global correcto
-	if emp == FALSE:
-		messagebox.showwarning("Aviso", "NoF se ha iniciado el juego")
+	if emp == FALSE:#si el juego no ha empezado no se puede reiniciar el juego
+		messagebox.showwarning("Aviso", "No se ha iniciado el juego")
 		return
 	#reiniciar posiciones
 	x1=10
@@ -358,13 +360,14 @@ def reiniciar_juego():
 	#limpiar categoria
 	categorias.set("")
 
+#crea la pantalla/ventana de las categorias
 eti = Label(pantalla, bg="Light Sky Blue", text="Categorias", font='Helvetica 18 bold')
-eti.place(x=10, y=10)
-categorias=ttk.Combobox(pantalla,font='Helvetica 18 bold')
+eti.place(x=10, y=10)#lo pones en el lugar
+categorias=ttk.Combobox(pantalla,font='Helvetica 18 bold')#la letra de la categoria
 categorias.option_add('*TCombobox*Listbox.font', ('Helvetica', 18))
-categorias['values']=cats
-categorias.place(x=150, y=10)#muestra la pregunta y categorias en cajas
-categorias.bind("<<ComboboxSelected>>", preguntas)
+categorias['values']=cats# obtiene el valor de las categorias
+categorias.place(x=150, y=10)#las pone en e lugar que va
+categorias.bind("<<ComboboxSelected>>", preguntas)#y muestra segun la categoria las preguntas
 
 #boton de siguiente
 siguiente=PhotoImage(file=r"./im/siguiente.png")

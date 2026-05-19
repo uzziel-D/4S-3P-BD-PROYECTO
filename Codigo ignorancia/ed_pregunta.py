@@ -127,5 +127,3 @@ def manipula_preguntas(datos):
 	b_borra_pre=Button(pantalla_pre, text="Borrar pregunta",command=borra_pre,fg="white",bg="red4", font="Arial 12", width=20).place(x=350, y=200)
 	b_selec_pre=Button(pantalla_pre, text="Selecciona pregunta",command=selec_pre,fg="white",bg="red4", font="Arial 12",width=20).place(x=540, y=200) 
 	
-	#Mantiene la ventana en funcionamiento 	
-	pantalla_pre.mainloop()
