@@ -62,7 +62,7 @@ def manipula_usuarios():
 	def agrega_user():
 		nombre = str_user.get()
 		if nombre == "":
-			print("no se ingreso un nombre")
+			messagebox.showerror("Error", "No se ingresó un nombre. Por favor, ingresa un nombre de usuario.")
 			return
 		inserta_usuario(nombre)
 		recupera_db()
@@ -72,11 +72,14 @@ def manipula_usuarios():
 	def modifica_user():
 		sel	=  Tab_user.selection()
 		if not sel:
-			print("No se seleccionó usuario")
+			messagebox.showerror("Error", "Selecciona un usuario para modificar")
 			return
 		#ac es la 	primera seleccion que hiso el usuario
 		ac = sel[0]
 		modif_usuario(ac,str_user.get())
+		if str_user.get() == "":
+			messagebox.showerror("Error", "No se ingresó un nombre. Por favor, ingresa un nombre de usuario.")
+			return
 		recupera_db()
     	
 	def asignar_j1():

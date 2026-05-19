@@ -51,18 +51,22 @@ mal = "red"
 normal = "light sky blue"
 
 def Empezar_juego():#funcion para para que el juego pueda empezar
-	global emp
+	global emp,seleccion
 	if not poder_jugar():#si no se han definido los jugadores no se puede empezar el juego
 		return	
 	if emp == TRUE:#si el juego ya ha empezado no se puede volver a empezar
 		messagebox.showwarning("Aviso", "El juego ya ha empezado")
 		return
+	if not seleccion:#si no se ha seleccionado una categoria no se puede empezar el juego
+		messagebox.showwarning("Aviso", "Selecciona una categoría para empezar el juego")
+		return
 	#muestra el mensaje 
-	empezar = messagebox.askyesno("AVISO", "una vez que inicie el juego no se podran modificar los nombres ¿Desea empezar el juego?")
+	empezar = messagebox.askyesno("AVISO", "una vez que inicie el juego no se podran modificar los nombres ni las categorias\n  ¿Desea empezar el juego?")
 	if empezar == True:
 		sel_preg()
 		emp = TRUE #activa la bandera de que el juego ha empezado y desabilita el boton de usuariosw
 		usua.config(state=DISABLED, image=usuariox,bg="gray")
+		categorias.config(state=DISABLED)
 	else:#si le da que no
 		return
 
@@ -254,6 +258,7 @@ def preguntas(event):
 	#por un guion bajo _ para hacer la busqueda en la base de datos necesitamos ahora
 	#reemplazar los guiones bajo _ por espacios en blanco
 	cat=str(cat).replace("_"," ")
+	print(cat)
 	seleccion=recupera_preguntas(cat)
 	sel_preg()
 
@@ -368,7 +373,53 @@ categorias.option_add('*TCombobox*Listbox.font', ('Helvetica', 18))
 categorias['values']=cats# obtiene el valor de las categorias
 categorias.place(x=150, y=10)#las pone en e lugar que va
 categorias.bind("<<ComboboxSelected>>", preguntas)#y muestra segun la categoria las preguntas
+#------------------------------------------BOTONES APARTIR DE AQUI-----------------------------------------
+#imagen del los botonees
+ibot= PhotoImage(file=r"./im/boton.png")
+mbot= PhotoImage(file=r"./im/botonM.png")
+bbot= PhotoImage(file=r"./im/botonB.png")
 
+#muestra la pregunta actual
+str_preg.set("")
+pre = Entry(pantalla, textvariable=str_preg, font='Helvetica 18 bold', bg="Lavender", width=75 , state=DISABLED, )
+pre.place(x=150, y=60)
+
+#boton para reimiciar el juego
+reiniciar = Button(pantalla,text="Reiniciar",command=reiniciar_juego,font='Helvetica 14 bold',bg="orange",height=2, width=10)
+reiniciar.place(x=1270, y=130)
+
+#Boton para empezar juego
+empezar = Button(pantalla, text="Empezar Juego", command=Empezar_juego, font='Helvetica 14 bold ',bg="Green", height = 2)
+empezar.place(x=1270, y=40)
+#actualiza el nombre del jugador asi como tambien lo muestra en la pantalla
+actualizar_jugador()
+sig_jug = Label(pantalla, bg="Light Sky Blue", textvariable=str_sig, font='Helvetica 18 bold')
+sig_jug.place(x=500, y=10)
+#muestra la el pregunta: la pregunta actual
+eti = Label(pantalla, bg="Light Sky Blue", text="Pregunta", font='Helvetica 18 bold')
+eti.place(x=10, y=60)
+#-----------------------------------------boton y funcion para actualizar  categorias
+def actualiza_categoria():
+    global cats
+    #limpia lista anterior
+    cats.clear()
+    #recupera categorias de la bd
+    l_cats = recupera_categoria()
+    #recorre categorias recuperadas
+    for cat in l_cats:
+        cat2 = str(cat[0]).replace(" ", "_")
+        cats.append(cat2)
+    categorias['values'] = cats
+    categorias.update()
+    print(cats)
+
+
+#boton de update para las categorias
+reiniciar = PhotoImage(file=r"./im/reiniciar.png")
+b_actualizar = Button(pantalla,image=reiniciar,command = actualiza_categoria,bg="red",fg="white",
+					  font='Helvetica 12 bold',width=80, height=80)
+b_actualizar.place(x=10, y=110)
+#-------------------------------------------------BOTONES---------------------------------------
 #boton de siguiente
 siguiente=PhotoImage(file=r"./im/siguiente.png")
 sig = Button(pantalla, text="sig", image=siguiente, command=pregunta_sig, font='Helvetica 14 bold ',bg="Green", width=270, height= 40,borderwidth=0)
@@ -384,56 +435,7 @@ usuario=PhotoImage(file=r"./im/usuario.png")
 usua = Button(pantalla, image=usuario, command=edita_usuario, font='Helvetica 14 bold ',bg="Green",width=80, height= 80)
 usua.place(x=1170, y=130)
 
-#actualiza el nombre del jugador asi como tambien lo muestra en la pantalla
-actualizar_jugador()
-sig_jug = Label(pantalla, bg="Light Sky Blue", textvariable=str_sig, font='Helvetica 18 bold')
-sig_jug.place(x=500, y=10)
-#muestra la el pregunta: la pregunta actual
-eti = Label(pantalla, bg="Light Sky Blue", text="Pregunta", font='Helvetica 18 bold')
-eti.place(x=10, y=60)
-
-
-#imagen del los botonees
-ibot= PhotoImage(file=r"./im/boton.png")
-mbot= PhotoImage(file=r"./im/botonM.png")
-bbot= PhotoImage(file=r"./im/botonB.png")
-
-
-#muestra la pregunta actual
-str_preg.set("")
-pre = Entry(pantalla, textvariable=str_preg, font='Helvetica 18 bold', bg="Lavender", width=75 , state=DISABLED, )
-pre.place(x=150, y=60)
-
-#boton para reimiciar el juego
-reiniciar = Button(pantalla,text="Reiniciar",command=reiniciar_juego,font='Helvetica 14 bold',bg="orange",height=2, width=10)
-reiniciar.place(x=1270, y=130)
-
-#Boton para empezar juego
-empezar = Button(pantalla, text="Empezar Juego", command=Empezar_juego, font='Helvetica 14 bold ',bg="Green", height = 2)
-empezar.place(x=1270, y=40)
-
-#-----------------------------------------BOTONES DE OPCIONES-----------------------------------------
-
-def actualiza_categoria():
-    global cats
-    #limpia lista anterior
-    cats.clear()
-    #recupera categorias de la bd
-    l_cats = recupera_categoria()
-    #recorre categorias recuperadas
-    for cat in l_cats:
-        cat2 = str(cat[0]).replace(" ", "_")
-        cats.append(cat2)
-    categorias['values'] = cats
-    categorias.update()
-    print(cats)
-
-#boton de update para las categorias
-b_actualizar = Button(pantalla, text="Actualizar", command = actualiza_categoria, bg="green", fg="white", font='Helvetica 12 bold'
-)
-b_actualizar.place(x=10, y=110)
-
-
+#-----------------------------------------BOTONES DE OPCIONES de las preguntas-----------------------------------------
 #boton de opcion 1
 str_res1.set("")
 r1 = Button(pantalla,image=ibot, textvariable=str_res1,compound="center", command=opc1, font='Helvetica 24 bold',bg="blue", fg="white",
