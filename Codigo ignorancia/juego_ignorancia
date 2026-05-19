@@ -413,6 +413,7 @@ empezar = Button(pantalla, text="Empezar Juego", command=Empezar_juego, font='He
 empezar.place(x=1270, y=40)
 
 #-----------------------------------------BOTONES DE OPCIONES-----------------------------------------
+
 def actualiza_categoria():
     global cats
     #limpia lista anterior
@@ -426,7 +427,6 @@ def actualiza_categoria():
     categorias['values'] = cats
     categorias.update()
     print(cats)
-
 
 #boton de update para las categorias
 b_actualizar = Button(pantalla, text="Actualizar", command = actualiza_categoria, bg="green", fg="white", font='Helvetica 12 bold'

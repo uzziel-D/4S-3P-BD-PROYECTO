@@ -1,11 +1,12 @@
 #Importa las librerias
 from tkinter import *
 from tkinter import ttk
+from tkinter import messagebox
 from conecta_bd import *
 
 #funcion para manipular las preguntas
 def manipula_preguntas(datos):
-	id=datos[0]
+	id=datos[0]#variable de id
 	pantalla_pre=Toplevel()
 	pantalla_pre.resizable(1,1)
 	pantalla_pre.geometry("1250x550")
@@ -63,21 +64,38 @@ def manipula_preguntas(datos):
 	def agrega_pre():
 		datos=(str_pre.get(),str_op1.get(),str_op2.get(),str_op3.get(),str_op4.get(),str_cor.get())
 		inserta_pregunta(datos,id)
+		if datos[0]=="" or datos[1]=="" or datos[2]=="" or datos[3]=="" or datos[4]=="" or datos[5]=="":
+			messagebox.showwarning("Aviso", "No se pueden dejar campos vacios")
+			return
 		recupera_preg(id)
+
 	#funcion para borrar preguntazs
 	def borra_pre():
+		if not Tabl_pre.selection():#en caso de que no seleccione ninguna pregunta
+			messagebox.showwarning("Aviso", "No se ha seleccionado ninguna pregunta")
+			return
 		ab=Tabl_pre.selection()[0]
 		borra_pregunta(ab)
 		recupera_preg(id)
 
 	def modif_pre():
+		if not Tabl_pre.selection():#en caso de que no seleccione ninguna pregunta
+			messagebox.showwarning("Aviso", "No se ha seleccionado ninguna pregunta")
+			return
 		ab=Tabl_pre.selection()[0]
 		datos=(str_pre.get(),str_op1.get(),str_op2.get(),str_op3.get(),str_op4.get(),str_cor.get())
 		modif_pregunta(ab,datos)
+		#si deja datos vacios no se puede modificar la pregunta
+		if datos[0]=="" or datos[1]=="" or datos[2]=="" or datos[3]=="" or datos[4]=="" or datos[5]=="":
+			messagebox.showwarning("Aviso", "No se pueden dejar campos vacios")
+			return
 		recupera_preg(id)
 		
 
 	def selec_pre():
+		if not Tabl_pre.selection():#en caso de que no seleccione ninguna pregunta
+			messagebox.showwarning("Aviso", "No se ha seleccionado ninguna pregunta")
+			return
 		ab=Tabl_pre.selection()[0]
 		dato=selec_pregunta(ab)
 		str_pre.set(dato[1])
