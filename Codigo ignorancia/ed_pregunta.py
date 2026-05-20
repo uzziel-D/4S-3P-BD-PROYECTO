@@ -13,19 +13,10 @@ def manipula_preguntas(datos):
 	pantalla_pre.geometry("1250x550")
 	pantalla_pre.config(background="Light Sky Blue")
 	pantalla_pre.title("Catalogo de Preguntas")
-
 	#imagen de fondo
 	img_fondo = PhotoImage(file=r"./im/mapa.png")
-
-	fond_pre = Label(
-		pantalla_pre,
-		image=img_fondo,
-		width=1250,
-		height=550
-	)
-
+	fond_pre = Label(pantalla_pre,image=img_fondo,width=1250,height=550)
 	fond_pre.place(x=0, y=0)
-
 	#mantiene viva la imagen
 	fond_pre.image = img_fondo
 

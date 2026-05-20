@@ -13,9 +13,14 @@ def manipula_usuarios():
 
 	pantalla_user = Toplevel()
 	pantalla_user.resizable(1,1)
-	pantalla_user.geometry("720x470")
+	pantalla_user.geometry("1250x550")
 	pantalla_user.config(background="Light Sky Blue")
 	pantalla_user.title("Catalogo de Usuarios")
+	img_fondo = PhotoImage(file=r"./im/pk3.png")
+	fond_pre = Label(pantalla_user,image=img_fondo,width=1250,height=550)
+	fond_pre.place(x=0, y=0)
+	#mantiene viva la imagen
+	fond_pre.image = img_fondo
 	str_user = StringVar()
 
 	#marco para la pantallla 
@@ -62,7 +67,7 @@ def manipula_usuarios():
 	def agrega_user():
 		nombre = str_user.get()
 		if nombre == "":
-			messagebox.showerror("Error", "No se ingresó un nombre. Por favor, ingresa un nombre de usuario.")
+			print("no se ingreso un nombre")
 			return
 		inserta_usuario(nombre)
 		recupera_db()
@@ -72,14 +77,11 @@ def manipula_usuarios():
 	def modifica_user():
 		sel	=  Tab_user.selection()
 		if not sel:
-			messagebox.showerror("Error", "Selecciona un usuario para modificar")
+			print("No se seleccionó usuario")
 			return
 		#ac es la 	primera seleccion que hiso el usuario
 		ac = sel[0]
 		modif_usuario(ac,str_user.get())
-		if str_user.get() == "":
-			messagebox.showerror("Error", "No se ingresó un nombre. Por favor, ingresa un nombre de usuario.")
-			return
 		recupera_db()
     	
 	def asignar_j1():
@@ -156,14 +158,22 @@ def manipula_usuarios():
 	btn_modifica.place(x=200, y=60)
 
 	#Botones para los definir a los jugadores
-	btn_j1 = Button(pantalla_user, text="Ju1", command=asignar_j1, bg="orange")
+	img_j1 = PhotoImage(file=r"./im/pkb.png")
+	btn_j1 = Button(pantalla_user, text="Ju1", image=img_j1, command=asignar_j1, bg="orange",width=50,height=50)
+	btn_j1.image = img_j1
 	btn_j1.place(x=20, y=90)
 
-	btn_j2 = Button(pantalla_user, text="Ju2", command=asignar_j2, bg="orange")
-	btn_j2.place(x=100, y=90)
+	img_j2 = PhotoImage(file=r"./im/ultra_pkb.png")
+	btn_j2 = Button(pantalla_user, text="Ju2", image=img_j2, command=asignar_j2, bg="orange",width=50,height=50)
+	btn_j2.image = img_j2
+	btn_j2.place(x=30, y=90)
 
-	btn_j3 = Button(pantalla_user, text="Ju3", command=asignar_j3, bg="orange")
-	btn_j3.place(x=180, y=90)
+	img_j3 = PhotoImage(file=r"./im/master_pkb.png")
+	btn_j3 = Button(pantalla_user, text="Ju3", image=img_j3, command=asignar_j3, bg="orange",width=50,height=50)
+	btn_j3.image = img_j3
+	btn_j3.place(x=40, y=90)
+
+
 
 	#nombre de los  jugadores definidos
 
