@@ -7,12 +7,17 @@ from ed_pregunta import *
 
 #funcion para manipular categorias
 def manipula_categorias():
-	pantalla_cat=Toplevel()#pantalla de esta misma
-	pantalla_cat.resizable(1,1)
+	pantalla_cat=Toplevel()
+	pantalla_cat.resizable(FALSE,FALSE)#esto para que no se pueda redimensionar la pantalla
 	pantalla_cat.geometry("920x350")
-	pantalla_cat.config(background="Light Sky Blue")
 	pantalla_cat.title("Catalogo de Categorias")
-	str_cat=StringVar()
+	ancho = pantalla_cat.winfo_screenwidth()#obtiene el ancho de la pantalla
+	alto = pantalla_cat.winfo_screenheight()#obtiene el alto de la pantalla	
+	fondo_cat = PhotoImage(file=r"./im/pk1.png")
+	fond_cat = Label(pantalla_cat, image=fondo_cat,width=920, height=350)
+	fond_cat.place(x=0, y=0)
+	fond_cat.image = fondo_cat
+	str_cat = StringVar()
 	datos = ()
 	#marco para poner las cosas
 	marco_per=Frame(pantalla_cat)
