@@ -7,12 +7,30 @@ from conecta_bd import *
 #funcion para manipular las preguntas
 def manipula_preguntas(datos):
 	id=datos[0]#variable de id
-	pantalla_pre=Toplevel()
+	#ventana
+	pantalla_pre = Toplevel()
 	pantalla_pre.resizable(1,1)
 	pantalla_pre.geometry("1250x550")
 	pantalla_pre.config(background="Light Sky Blue")
 	pantalla_pre.title("Catalogo de Preguntas")
 
+	#imagen de fondo
+	img_fondo = PhotoImage(file=r"./im/mapa.png")
+
+	fond_pre = Label(
+		pantalla_pre,
+		image=img_fondo,
+		width=1250,
+		height=550
+	)
+
+	fond_pre.place(x=0, y=0)
+
+	#mantiene viva la imagen
+	fond_pre.image = img_fondo
+
+	#manda el fondo hacia atras
+	fond_pre.lower()
 	#Variables que almacenan los datos capturados en los Entry 
 	str_cat=StringVar()
 	str_pre=StringVar()
