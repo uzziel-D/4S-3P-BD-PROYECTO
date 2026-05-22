@@ -23,19 +23,15 @@ def manipula_usuarios():
 
 	#marco para la pantallla 
 	marco = Frame(pantalla_user)
-	marco.pack()
 	marco.place(x=80, y=170)
 	#barra de desplazamiento para la tabla de los usarios
 	scroll = ttk.Scrollbar(marco, orient="vertical")
 	scroll.pack(side=RIGHT, fill=Y)
     #parte nueva para agranndar las letras del scrobball
 	style = ttk.Style()
-	#texto de las filas
-	style.configure("Treeview",font=("Helvetica", 18),rowheight=25)
-
-	#texto de los encabezados
-	style.configure("Treeview.Heading",font=("Helvetica", 24, "bold"))
-	Tab_user = ttk.Treeview(marco, columns=("nombre"), yscrollcommand=scroll.set)
+	style.configure("Usuarios.Treeview",font=("Helvetica", 18),rowheight=25)
+	style.configure("Usuarios.Treeview.Heading",font=("Helvetica", 24, "bold"))
+	Tab_user = ttk.Treeview(marco,columns=("nombre"),yscrollcommand=scroll.set,style="Usuarios.Treeview")
 	Tab_user.column("#0", width=100)
 	Tab_user.column("nombre", width=300)
 	Tab_user.heading("nombre", text="Nombre")

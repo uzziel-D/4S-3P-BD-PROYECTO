@@ -11,8 +11,6 @@ def manipula_categorias():
 	pantalla_cat.resizable(FALSE,FALSE)#esto para que no se pueda redimensionar la pantalla
 	pantalla_cat.geometry("920x350")
 	pantalla_cat.title("Catalogo de Categorias")
-	ancho = pantalla_cat.winfo_screenwidth()#obtiene el ancho de la pantalla
-	alto = pantalla_cat.winfo_screenheight()#obtiene el alto de la pantalla	
 	fondo_cat = PhotoImage(file=r"./im/pk1.png")
 	fond_cat = Label(pantalla_cat, image=fondo_cat,width=920, height=350)
 	fond_cat.place(x=0, y=0)
@@ -21,13 +19,12 @@ def manipula_categorias():
 	datos = ()
 	#marco para poner las cosas
 	marco_per=Frame(pantalla_cat)
-	marco_per.pack()
 	marco_per.place(x=20, y=100)
 	ver_sb=ttk.Scrollbar(marco_per,orient="vertical")
 	ver_sb.pack(side=RIGHT, fill=Y)
 	Tab1_cat = ttk.Treeview(marco_per, columns=("col1"), yscrollcommand=ver_sb.set)
 	Tab1_cat.column("#0",width=155)
-	Tab1_cat.column("col1",width=500)
+	Tab1_cat.column("col1",width=400)
 	Tab1_cat.heading("#0", text="Id_categoria")
 	Tab1_cat.heading("col1",text="Descripcion")
 	Tab1_cat.pack()

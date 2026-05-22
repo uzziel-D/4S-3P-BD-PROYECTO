@@ -48,7 +48,7 @@ turno=1
 emp = FALSE #bandera para que cuando el juego empiece
 bien = "green"
 mal = "red"
-normal = "light sky blue"
+ganador = FALSE
 
 def Empezar_juego():#funcion para para que el juego pueda empezar
 	global emp,seleccion
@@ -296,7 +296,7 @@ for cat in l_cats:
 
 #funcin de cuadno gana un jugador
 def gano():
-	global id_categoria
+	global id_categoria, ganador
 	jugadores = [#esto es pa obtener el id el nombre y la posicion del jugador para despues ordenarlos y dar los puntos segun su posicion
 		{"id": ed_usuario.id_jugador1,"nombre": ed_usuario.jugador1, "posicion": x1},
 		{"id": ed_usuario.id_jugador2,"nombre": ed_usuario.jugador2, "posicion": x2},
@@ -313,6 +313,8 @@ def gano():
 		actualiza_puntos_usuario(posiciones[0]["id"], id_categoria, 3)
 		actualiza_puntos_usuario(posiciones[1]["id"], id_categoria, 2)
 		actualiza_puntos_usuario(posiciones[2]["id"], id_categoria, 1)
+		ganador = True
+		reiniciar_juego()
 	elif x4>=1410:#en casso de que la ignorancia llegue a la meta nadie gana
 		messagebox.showinfo("Fin del juego","La ignorancia gano"
 		)
@@ -326,6 +328,14 @@ def reiniciar_juego():
 	if emp == FALSE:#si el juego no ha empezado no se puede reiniciar el juego
 		messagebox.showwarning("Aviso", "No se ha iniciado el juego")
 		return
+	if ganador == False:#si no hay un ganador no se puede reiniciar el juego
+		resp = messagebox.askyesno(
+			"Advertencia",
+			"¿Estás seguro de que quieres reiniciar el juego?\n"
+			"Se perderán los avances actuales."
+		)
+		if resp == False:
+			return	
 	#reiniciar posiciones
 	x1=10
 	x2=10
@@ -361,7 +371,8 @@ def reiniciar_juego():
 
 	#activar boton usuarios otra vez
 	usua.config(state=NORMAL, image=usuario, bg="green")
-
+	ganador = False
+	categorias.config(state=NORMAL)
 	#limpiar categoria
 	categorias.set("")
 

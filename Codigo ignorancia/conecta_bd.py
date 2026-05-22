@@ -79,7 +79,6 @@ def actualiza_puntos_usuario(id_usuario, id_categoria, puntos):
 	cursor.execute("CALL sp_actualiza_usuario_categoria(%s, %s, %s)", (id_usuario, id_categoria, puntos))
 	conn.commit()
 	conn.close()
-
 #funcion para robtener la tabla de categoria
 def tabla_categoria():
 	conn = pymysql.connect(host='localhost', user='root', passwd='', db='ignorancia')
