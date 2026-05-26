@@ -87,6 +87,18 @@ def manipula_usuarios():
 			return
 		recupera_db()
     	
+	def borrar_user():#def para borrar usuario
+		sel = Tab_user.selection()
+		if not sel:#en caso de no seleccionar un usuario
+			messagebox.showerror("Error", "Selecciona un usuario")
+			return
+		id_user = int(sel[0])#segun el usuario seleccionado agarra su id
+		resp = messagebox.askyesno("Confirmar", "¿Seguro que quieres borrar este usuario?")
+		if not resp:
+			return
+		borrar_usuario(id_user)#llama a la funcion de conecta bd
+		recupera_db()
+			
 	def asignar_j1():
 		global jugador1,id_jugador1
 		#seleccion del usuario
@@ -148,10 +160,11 @@ def manipula_usuarios():
 	#entrada donde se muestra o se ingresa el usuario
 	pre = Entry(pantalla_user, textvariable=str_user, font='Helvetica 18 bold ',bg="Lavender", width=80)
 	pre.place(x=20, y=20)
+	
 	#boton para agregar un usuario
 	agrusuario = PhotoImage(file=r"./im/agrusuario.png")
 	btn_agrega = Button(pantalla_user, image=agrusuario, command=agrega_user, bg="yellow", fg="white", width=230, height=60)
-	btn_agrega.place(x=600, y=80)
+	btn_agrega.place(x=560, y=80)
 	#boton de seleccion de usuario
 	selecusuario = PhotoImage(file=r"./im/selecusuario.png")
 	btn_select = Button(pantalla_user,image=selecusuario,command=select_user,bg="green",fg="white", width=230, height=60)
@@ -160,8 +173,15 @@ def manipula_usuarios():
 	modifusuario = PhotoImage(file=r"./im/modifusuario.png")
 	btn_modifica = Button(pantalla_user,image=modifusuario, command=modifica_user, bg="red", fg="white", width=230, height=60)
 	btn_modifica.place(x=300, y=80)
-	verpunt = Button(pantalla_user, text="puntuacion", command=ver_puntuacion,fg="white",bg="red4", font='Arial 12')
-	verpunt.place(x=900, y=80)
+	#boton para entrar en ed_puntuaciones/ visualizar las puntuaciones
+	puntua = PhotoImage(file=r"./im/btnpunt.png")
+	verpunt = Button(pantalla_user, image=puntua, command=ver_puntuacion,fg="white",bg="blue",width=260, height=240)
+	verpunt.place(x=900, y=240)
+	#boton para eliminar los usuarioes seleccionados
+	elimusuario = PhotoImage(file=r"./im/elimusuario.png")
+	btn_borrar = Button(pantalla_user,image=elimusuario,command=borrar_user,bg="black",fg="white",width=230, height=60)
+	btn_borrar.place(x=840, y=80)
+
 
 	#Botones para los definir a los jugadores
 	master_pkb = PhotoImage(file=r"./im/master_pkb.png")

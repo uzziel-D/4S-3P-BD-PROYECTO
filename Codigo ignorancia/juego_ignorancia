@@ -15,20 +15,20 @@ import ed_usuario
 #definicion de la pantalla
 pantalla = Tk()
 pantalla.resizable(1,1)
-pantalla.geometry("1920x1080")
+ancho = pantalla.winfo_screenwidth()#se agarra el ancho de la pantalla dependiendo del monitor
+pantalla.geometry(f"{ancho}x1080")
 pantalla.config(background="Light Sky Blue")
 pantalla.title("Ignorancia-BD")
 #para manipular de mejor manera la imagen de la pista
-ancho = pantalla.winfo_screenwidth()
 lmg = Img.open(r"./im/pista.png")#abre la imagen de la pista para que se carge
 lmg = lmg.resize((ancho, 1080))#cambia el tamaño
 fondo = ImageTk.PhotoImage(lmg)#cambia la imagen en un pillow para que se pueda usar en un canvas
-#Un canvas en un lienzo en blanco el cual puedes rellenar o puedes dejarlo y no va ver nada en este caso se usa para
+#Un canvas en un lienzo en blanco el cual puedes rellenar o puedes dejarlo y no va ver nada en este caso se usa para 
 #que los canvas de los jugadores sean tambien trasnparentes y no se vea el fondo blanco que genera automaticamente TK al no tener un BG
 canvas = Canvas(pantalla, width=ancho, height=1080, highlightthickness=0)#crea la imagen en canvas con el tamaño y sin bordes
 canvas.place(x=0, y=0)#coloca el canvas
 canvas.create_image(0, 0, image=fondo, anchor="nw")# mete la imagen de la pista en el canvas para que despues no de problemas con otros canvas
-                #0,0 es posicion y "nw" se refiere a la esquina superior de la pantalla
+				#0,0 es posicion y "nw" se refiere a la esquina superior de la pantalla
 #variables
 seleccion=()
 str_preg=StringVar()
@@ -92,17 +92,21 @@ def actualizar_jugador():
 
 #funcion para que los jugadores puedan avanzar
 def avanza_jug():
-	global x1,x2,x3
-	if turno==1:
-		x1=x1+100
-		canvas.coords(j1,x1,315)
-	elif turno==2:
-		x2=x2+100
-		canvas.coords(j2,x2,430)
+	global x1, x2, x3
 
-	elif turno==3:
-		x3=x3+100
-		canvas.coords(j3,x3,550)
+	step = canvas.winfo_width() * 0.05  # 5% del ancho de la pista
+	#esto para que cada vez que avanze el jugador solo avanze el 5% de la pantalla y poder definir la meta siempre dependiendo del monitor
+	if turno == 1:
+		x1 = x1 + step
+		canvas.coords(j1, x1, 315)
+
+	elif turno == 2:
+		x2 = x2 + step
+		canvas.coords(j2, x2, 430)
+
+	elif turno == 3:
+		x3 = x3 + step
+		canvas.coords(j3, x3, 550)
 		
 #opcion 1 de la pregunta
 def opc1():#si los jugadores no estan definidos no se podra seleccionar ninguna pregunta
@@ -296,30 +300,29 @@ for cat in l_cats:
 
 #funcin de cuadno gana un jugador
 def gano():
-    global id_categoria,gan
-    jugadores = [#esto es pa obtener el id el nombre y la posicion del jugador para despues ordenarlos y dar los puntos segun su posicion
-        {"id": ed_usuario.id_jugador1,"nombre": ed_usuario.jugador1, "posicion": x1},
-        {"id": ed_usuario.id_jugador2,"nombre": ed_usuario.jugador2, "posicion": x2},
-        {"id": ed_usuario.id_jugador3,"nombre": ed_usuario.jugador3, "posicion": x3} ]
-    #oproceso para ordenar los numeros de menor a mayo i y despues invertirlos
-    posiciones = sorted(jugadores, key=lambda x: x["posicion"], reverse=True)
-    meta = canvas.winfo_width() -110
-    #si algun jugador llega a la meta entonces
-    if x1>=meta or x2>=meta or x3>=meta:
-        messagebox.showinfo("Fin del juego",
-        f"1 lugar: {posiciones[0]['nombre']}\n"
-        f"2 lugar: {posiciones[1]['nombre']}\n"
-        f"3 lugar: {posiciones[2]['nombre']}"
-        )
-        actualiza_puntos_usuario(posiciones[0]["id"], id_categoria, 3)
-        actualiza_puntos_usuario(posiciones[1]["id"], id_categoria, 2)
-        actualiza_puntos_usuario(posiciones[2]["id"], id_categoria, 1)
-        gan = TRUE
-        reiniciar_juego()
-    elif x4>=1410:#en casso de que la ignorancia llegue a la meta nadie gana
-        messagebox.showinfo("Fin del juego","La ignorancia gano")
-        print(posiciones)
-
+	global id_categoria,gan
+	jugadores = [#esto es pa obtener el id el nombre y la posicion del jugador para despues ordenarlos y dar los puntos segun su posicion
+		{"id": ed_usuario.id_jugador1,"nombre": ed_usuario.jugador1, "posicion": x1},
+		{"id": ed_usuario.id_jugador2,"nombre": ed_usuario.jugador2, "posicion": x2},
+		{"id": ed_usuario.id_jugador3,"nombre": ed_usuario.jugador3, "posicion": x3} ]
+	#oproceso para ordenar los numeros de menor a mayo i y despues invertirlos
+	posiciones = sorted(jugadores, key=lambda x: x["posicion"], reverse=True)
+	meta = canvas.winfo_width() * 0.90#la meta esta en el 90# de la pantalla
+	#si algun jugador llega a la meta entonces
+	if x1>=meta or x2>=meta or x3>=meta:
+		messagebox.showinfo("Fin del juego",
+		f"1 lugar: {posiciones[0]['nombre']}\n"
+		f"2 lugar: {posiciones[1]['nombre']}\n"
+		f"3 lugar: {posiciones[2]['nombre']}"
+		)
+		actualiza_puntos_usuario(posiciones[0]["id"], id_categoria, 3)
+		actualiza_puntos_usuario(posiciones[1]["id"], id_categoria, 2)
+		actualiza_puntos_usuario(posiciones[2]["id"], id_categoria, 1)
+		gan = TRUE#para que no pregunte y directamente reinicie el juego
+		reiniciar_juego()
+	elif x4>=1410:#en casso de que la ignorancia llegue a la meta nadie gana
+		messagebox.showinfo("Fin del juego","La ignorancia gano")
+		print(posiciones)
 
 def reiniciar_juego():
 	global x1,x2,x3,x4,turno,emp,correcto, gan#variablesde los jugadores y etc
@@ -483,8 +486,7 @@ while True:#ciclo infinito para que todo el tiempo haga la animacion
         break
 j1 = canvas.create_image(10,315,image=ju1[0],anchor="nw")#dibuja el gif en el canvas para que se haga trasnparente y se pueda mover sin problemas
 
-def animar(i=0):
-
+def animar(i=0):#funcion para que anime la imagen todo el tiempo y falla frame por frame
     canvas.itemconfig(j1,image=ju1[i])
     i += 1
     if i >= len(ju1):
