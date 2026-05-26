@@ -110,6 +110,16 @@ def modif_usuario(ac, nombre):
     cursor.execute('UPDATE usuario SET nombre=%s WHERE id_usuario=%s',(nombre, ac))
     conn.commit()
     conn.close()
+
+def borrar_usuario(id_usuario):
+	conn = pymysql.connect(host='localhost',user='root',passwd='', db='ignorancia')
+	cursor = conn.cursor()
+	#borra una categoria usando el id, el "ab" es el identificador de la categoria que se selecciono.
+	cursor.execute("DELETE FROM usuario_categoria WHERE id_usuario = %s", (id_usuario))
+	cursor.execute("DELETE FROM usuario WHERE id_usuario = %s", (id_usuario))
+	conn.commit()
+	conn.close()
+
 #funcion para borrar categoria
 def borra_categoria(ab):
 	conn = pymysql.connect(host='localhost',user='root',passwd='', db='ignorancia')
