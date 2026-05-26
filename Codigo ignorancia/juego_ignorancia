@@ -323,6 +323,7 @@ def gano():
 	elif x4>=1410:#en casso de que la ignorancia llegue a la meta nadie gana
 		messagebox.showinfo("Fin del juego","La ignorancia gano")
 		print(posiciones)
+		reiniciar_juego()
 
 def reiniciar_juego():
 	global x1,x2,x3,x4,turno,emp,correcto, gan#variablesde los jugadores y etc
