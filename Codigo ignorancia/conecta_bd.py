@@ -1,20 +1,25 @@
 #Se importa la libreria necesaria
 import pymysql
-
+import sys
+from tkinter import messagebox
 ##Procedimiento para conectar y extraer informacion de la BD
 def recupera_categoria():
-	##Se crea un objeto de coneccion a la BD
-	conn = pymysql.connect(host='localhost', user='root', passwd='', db='ignorancia')
-	##Se crea un cursor para ejecutar consultas a la base de datos
-	cursor = conn.cursor()
-	##Se utiliza el cursor para ejecutar la consulta sobre la tabla de categorias
-	cursor.execute('select descripcion from categoria')
-	##Se crea una lista para contener las categorias extraidas de la base de datos
-	categorias = cursor.fetchall()
-	##cerrar la base de datos
-	conn.close()
-	#print(categorias)
-	return categorias
+	try:
+		##Se crea un objeto de coneccion a la BD
+		conn = pymysql.connect(host='localhost', user='root', passwd='', db='ignorancia')
+		##Se crea un cursor para ejecutar consultas a la base de datos
+		cursor = conn.cursor()
+		##Se utiliza el cursor para ejecutar la consulta sobre la tabla de categorias
+		cursor.execute('select descripcion from categoria')
+		##Se crea una lista para contener las categorias extraidas de la base de datos
+		categorias = cursor.fetchall()
+		##cerrar la base de datos
+		conn.close()
+		#print(categorias)
+		return categorias
+	except pymysql.err.OperationalError:
+		messagebox.showerror("error de conexion","No se encontro la base de datos o las categorias o MySQL esta apagado")
+		sys.exit()
 
 def recupera_preguntas(cat):
 	conn = pymysql.connect(host='localhost', user='root', passwd='', db='ignorancia')
@@ -185,3 +190,12 @@ def inserta_pregunta(datos,id):
 	#los datos de la pregunta se almacenan en una tupla
 	cursor.execute('insert into pregunta (pregunta,opcion_1,opcion_2,opcion_3,opcion_4,correcto,id_categoria) values(%s,%s,%s,%s,%s,%s,%s)', (datos[0],datos[1],datos[2],datos[3],datos[4],datos[5],id))
 	conn.commit()
+
+def recupera_puntuacion():
+	conn = pymysql.connect(host='localhost',user='root',passwd='', db='ignorancia')
+	cursor = conn.cursor()
+	cursor.execute("CALL sp_tabla_puntuaciones();")
+	puntaciones = cursor.fetchall()
+	conn.close
+	return puntaciones
+	

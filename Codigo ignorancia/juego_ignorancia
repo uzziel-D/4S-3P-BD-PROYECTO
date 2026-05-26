@@ -19,17 +19,16 @@ pantalla.geometry("1920x1080")
 pantalla.config(background="Light Sky Blue")
 pantalla.title("Ignorancia-BD")
 #para manipular de mejor manera la imagen de la pista
+ancho = pantalla.winfo_screenwidth()
 lmg = Img.open(r"./im/pista.png")#abre la imagen de la pista para que se carge
-ancho = pantalla.winfo_screenwidth()#obtiene el ancho de la pantalla
-alto = pantalla.winfo_screenheight()#obtiene el alto de la pantalla	
 lmg = lmg.resize((ancho, 1080))#cambia el tamaño
 fondo = ImageTk.PhotoImage(lmg)#cambia la imagen en un pillow para que se pueda usar en un canvas
-#Un canvas en un lienzo en blanco el cual puedes rellenar o puedes dejarlo y no va ver nada en este caso se usa para 
+#Un canvas en un lienzo en blanco el cual puedes rellenar o puedes dejarlo y no va ver nada en este caso se usa para
 #que los canvas de los jugadores sean tambien trasnparentes y no se vea el fondo blanco que genera automaticamente TK al no tener un BG
-canvas = Canvas(pantalla, width=1920, height=1080, highlightthickness=0)#crea la imagen en canvas con el tamaño y sin bordes
+canvas = Canvas(pantalla, width=ancho, height=1080, highlightthickness=0)#crea la imagen en canvas con el tamaño y sin bordes
 canvas.place(x=0, y=0)#coloca el canvas
 canvas.create_image(0, 0, image=fondo, anchor="nw")# mete la imagen de la pista en el canvas para que despues no de problemas con otros canvas
-				#0,0 es posicion y "nw" se refiere a la esquina superior de la pantalla
+                #0,0 es posicion y "nw" se refiere a la esquina superior de la pantalla
 #variables
 seleccion=()
 str_preg=StringVar()
@@ -48,6 +47,7 @@ turno=1
 emp = FALSE #bandera para que cuando el juego empiece
 bien = "green"
 mal = "red"
+gan = FALSE
 
 def Empezar_juego():#funcion para para que el juego pueda empezar
 	global emp,seleccion
@@ -65,7 +65,7 @@ def Empezar_juego():#funcion para para que el juego pueda empezar
 		sel_preg()
 		emp = TRUE #activa la bandera de que el juego ha empezado y desabilita el boton de usuariosw
 		usua.config(state=DISABLED, image=usuariox,bg="gray")
-		
+		cat_categ.config(state=DISABLED)
 		categorias.config(state=DISABLED)
 	else:#si le da que no
 		return
@@ -103,7 +103,7 @@ def avanza_jug():
 	elif turno==3:
 		x3=x3+100
 		canvas.coords(j3,x3,550)
-
+		
 #opcion 1 de la pregunta
 def opc1():#si los jugadores no estan definidos no se podra seleccionar ninguna pregunta
 	if emp == FALSE:#si no ha empezado el juego
@@ -120,7 +120,7 @@ def opc1():#si los jugadores no estan definidos no se podra seleccionar ninguna 
 	else:
 		r1.config(image= mbot,bg=mal, fg="black", disabledforeground="black")
 		x4=x4+100
-		canvas.coords(bu,x4,650)
+		canvas.coords(j4,x4,650)
 		if correcto==2:
 			r2.config(image= bbot,bg=bien, fg="black", disabledforeground="black")
 		elif correcto==3:
@@ -147,7 +147,7 @@ def opc2():
 	else:
 		r2.config(image= mbot,bg=mal, fg="black", disabledforeground="black")
 		x4=x4+100
-		canvas.coords(bu,x4,650)
+		canvas.coords(j4,x4,650)
 		if correcto==1:
 			r1.config(image= bbot,bg=bien, fg="black", disabledforeground="black")
 		elif correcto==3:
@@ -174,7 +174,7 @@ def opc3():
 	else:
 		r3.config(image= mbot,bg=mal, fg="black", disabledforeground="black")
 		x4=x4+100
-		canvas.coords(bu,x4,650)
+		canvas.coords(j4,x4,650)
 		if correcto==1:
 			r1.config(image= bbot,bg=bien, fg="black", disabledforeground="black")
 		elif correcto==2:
@@ -201,7 +201,7 @@ def opc4():
 	else:
 		r4.config(image= mbot,bg=mal, fg="black", disabledforeground="black")
 		x4=x4+100
-		canvas.coords(bu,x4,650)
+		canvas.coords(j4,x4,650)
 		if correcto==1:
 			r1.config(image= bbot,bg=bien, fg="black", disabledforeground="black")
 		elif correcto==2:
@@ -296,38 +296,37 @@ for cat in l_cats:
 
 #funcin de cuadno gana un jugador
 def gano():
-	global id_categoria
-	jugadores = [#esto es pa obtener el id el nombre y la posicion del jugador para despues ordenarlos y dar los puntos segun su posicion
-		{"id": ed_usuario.id_jugador1,"nombre": ed_usuario.jugador1, "posicion": x1},
-		{"id": ed_usuario.id_jugador2,"nombre": ed_usuario.jugador2, "posicion": x2},
-		{"id": ed_usuario.id_jugador3,"nombre": ed_usuario.jugador3, "posicion": x3} ]
-	#oproceso para ordenar los numeros de menor a mayo i y despues invertirlos
-	posiciones = sorted(jugadores, key=lambda x: x["posicion"], reverse=True)
-	#si algun jugador llega a la meta entonces
-	if x1>=1410 or x2>=1410 or x3>=1410:
-		messagebox.showinfo("Fin del juego",
-		f"1 lugar: {posiciones[0]['nombre']}\n"
-		f"2 lugar: {posiciones[1]['nombre']}\n"
-		f"3 lugar: {posiciones[2]['nombre']}"
-		)
-		actualiza_puntos_usuario(posiciones[0]["id"], id_categoria, 3)
-		actualiza_puntos_usuario(posiciones[1]["id"], id_categoria, 2)
-		actualiza_puntos_usuario(posiciones[2]["id"], id_categoria, 1)
-		reiniciar_juego()
-	elif x4>=1410:#en casso de que la ignorancia llegue a la meta nadie gana
-		messagebox.showinfo("Fin del juego","La ignorancia gano"
-		)
-		print(posiciones)
+    global id_categoria,gan
+    jugadores = [#esto es pa obtener el id el nombre y la posicion del jugador para despues ordenarlos y dar los puntos segun su posicion
+        {"id": ed_usuario.id_jugador1,"nombre": ed_usuario.jugador1, "posicion": x1},
+        {"id": ed_usuario.id_jugador2,"nombre": ed_usuario.jugador2, "posicion": x2},
+        {"id": ed_usuario.id_jugador3,"nombre": ed_usuario.jugador3, "posicion": x3} ]
+    #oproceso para ordenar los numeros de menor a mayo i y despues invertirlos
+    posiciones = sorted(jugadores, key=lambda x: x["posicion"], reverse=True)
+    meta = canvas.winfo_width() -110
+    #si algun jugador llega a la meta entonces
+    if x1>=meta or x2>=meta or x3>=meta:
+        messagebox.showinfo("Fin del juego",
+        f"1 lugar: {posiciones[0]['nombre']}\n"
+        f"2 lugar: {posiciones[1]['nombre']}\n"
+        f"3 lugar: {posiciones[2]['nombre']}"
+        )
+        actualiza_puntos_usuario(posiciones[0]["id"], id_categoria, 3)
+        actualiza_puntos_usuario(posiciones[1]["id"], id_categoria, 2)
+        actualiza_puntos_usuario(posiciones[2]["id"], id_categoria, 1)
+        gan = TRUE
+        reiniciar_juego()
+    elif x4>=1410:#en casso de que la ignorancia llegue a la meta nadie gana
+        messagebox.showinfo("Fin del juego","La ignorancia gano")
+        print(posiciones)
+
 
 def reiniciar_juego():
-	global x1,x2,x3,x4#variablesde los jugadores y etc
-	global turno
-	global emp
-	global correcto
+	global x1,x2,x3,x4,turno,emp,correcto, gan#variablesde los jugadores y etc
 	if emp == FALSE:#si el juego no ha empezado no se puede reiniciar el juego
 		messagebox.showwarning("Aviso", "No se ha iniciado el juego")
 		return
-	if emp ==TRUE:#si no hay un ganador no se puede reiniciar el juego
+	if emp == TRUE and gan == FALSE:#si no hay un ganador no se puede reiniciar el juego
 		resp = messagebox.askyesno(
 			"Advertencia",
 			"¿Estás seguro de que quieres reiniciar el juego?\n"
@@ -345,7 +344,7 @@ def reiniciar_juego():
 	canvas.coords(j1,x1,315)
 	canvas.coords(j2,x2,430)
 	canvas.coords(j3,x3,550)
-	canvas.coords(bu,x4,650)
+	canvas.coords(j4,x4,650)
 
 	#reiniciar turno
 	turno=1
@@ -371,6 +370,7 @@ def reiniciar_juego():
 	#activar boton usuarios otra vez
 	usua.config(state=NORMAL, image=usuario, bg="green")
 	categorias.config(state=NORMAL)
+	cat_categ.config(state=NORMAL)
 	#limpiar categoria
 	categorias.set("")
 
@@ -493,14 +493,70 @@ def animar(i=0):
 
 animar()
 
-#jugador 2 az
-ju2=PhotoImage(file=r"./im/ju2.png")
-j2 = canvas.create_image(30, 430, image=ju2, anchor="nw")
-#jugador 3
-ju3=PhotoImage(file=r"./im/ju3.png")
-j3 = canvas.create_image(20,550, image=ju3, anchor="nw")
-#jugador 4
-bur=PhotoImage(file=r"./im/ju4.png")
-bu = canvas.create_image(15,650, image=bur, anchor="nw")
+ju2 = []#variable del jugador donde  se van a guardar los frames del gif/animacion
+i = 0 #valor para recorrer los frames del gif/animacion
+
+while True:#ciclo infinito para que todo el tiempo haga la animacion
+    try:#intenta cargar los frames del gif/animacion y guardarlos en la variable ju1
+		#primero carga el gif para despues format =f gif- index[i] esto va ir cargando los frames del gif uno por uno para que valla moviendose}
+        ju2.append(PhotoImage(file=r"./im/ju2.gif", format=f"gif -index {i}"))
+        i += 1
+    except:#en  caso de que algo falle va a romperse 
+        break
+j2 = canvas.create_image(30,430,image=ju2[0],anchor="nw")#dibuja el gif en el canvas para que se haga trasnparente y se pueda mover sin problemas
+
+def animar2(i=0):
+
+    canvas.itemconfig(j2,image=ju2[i])
+    i += 1
+    if i >= len(ju2):
+        i = 0
+    pantalla.after(60,animar2,i)
+
+animar2()
+
+ju3 = []#variable del jugador donde  se van a guardar los frames del gif/animacion
+i = 0 #valor para recorrer los frames del gif/animacion
+
+while True:#ciclo infinito para que todo el tiempo haga la animacion
+    try:#intenta cargar los frames del gif/animacion y guardarlos en la variable ju1
+		#primero carga el gif para despues format =f gif- index[i] esto va ir cargando los frames del gif uno por uno para que valla moviendose}
+        ju3.append(PhotoImage(file=r"./im/ju3.gif", format=f"gif -index {i}"))
+        i += 1
+    except:#en  caso de que algo falle va a romperse 
+        break
+j3 = canvas.create_image(20,550,image=ju3[0],anchor="nw")#dibuja el gif en el canvas para que se haga trasnparente y se pueda mover sin problemas
+
+def animar3(i=0):
+
+    canvas.itemconfig(j3,image=ju3[i])
+    i += 1
+    if i >= len(ju3):
+        i = 0
+    pantalla.after(60,animar3,i)
+
+animar3()
+
+ju4 = []#variable del jugador donde  se van a guardar los frames del gif/animacion
+i = 0 #valor para recorrer los frames del gif/animacion
+
+while True:#ciclo infinito para que todo el tiempo haga la animacion
+    try:#intenta cargar los frames del gif/animacion y guardarlos en la variable ju1
+		#primero carga el gif para despues format =f gif- index[i] esto va ir cargando los frames del gif uno por uno para que valla moviendose}
+        ju4.append(PhotoImage(file=r"./im/ju4.gif", format=f"gif -index {i}"))
+        i += 1
+    except:#en  caso de que algo falle va a romperse 
+        break
+j4 = canvas.create_image(15,650,image=ju4[0],anchor="nw")#dibuja el gif en el canvas para que se haga trasnparente y se pueda mover sin problemas
+
+def animar4(i=0):
+
+    canvas.itemconfig(j4,image=ju4[i])
+    i += 1
+    if i >= len(ju4):
+        i = 0
+    pantalla.after(60,animar4,i)
+
+animar4()
 #mainloop de la pantalla
 pantalla.mainloop()

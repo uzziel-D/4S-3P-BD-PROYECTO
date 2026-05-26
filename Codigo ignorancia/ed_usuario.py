@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
 from conecta_bd import *
+from ed_puntuacion import *
 jugador1 = "Defina los jugadores"
 jugador2 = "Defina los jugadores"
 jugador3 = "Defina los jugadores"
@@ -140,7 +141,8 @@ def manipula_usuarios():
 		jugador3 = nombre
 		str_j3.set(jugador3)
 		
-
+	def ver_puntuacion():
+		manipula_puntuacion()
 
 	str_user.set("")
 	#entrada donde se muestra o se ingresa el usuario
@@ -158,6 +160,8 @@ def manipula_usuarios():
 	modifusuario = PhotoImage(file=r"./im/modifusuario.png")
 	btn_modifica = Button(pantalla_user,image=modifusuario, command=modifica_user, bg="red", fg="white", width=230, height=60)
 	btn_modifica.place(x=300, y=80)
+	verpunt = Button(pantalla_user, text="puntuacion", command=ver_puntuacion,fg="white",bg="red4", font='Arial 12')
+	verpunt.place(x=900, y=80)
 
 	#Botones para los definir a los jugadores
 	master_pkb = PhotoImage(file=r"./im/master_pkb.png")
