@@ -15,6 +15,3 @@ Para tkinter:
 2. Defines los jugadores 
 3. Empiezas el juego
 4. Objetivo: Ganar antes que la Ignorancia
-
-## ------------------POSIBLES ERRORES------------------ <br>
-rutas incorrectas de imágenes
