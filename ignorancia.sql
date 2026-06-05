@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 26-05-2026 a las 18:48:48
+-- Tiempo de generación: 05-06-2026 a las 21:43:17
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -86,15 +86,13 @@ INSERT INTO `categoria` (`id_categoria`, `descripcion`) VALUES
 (1, 'historia'),
 (2, 'matematicas'),
 (3, 'geografia'),
-(4, 'quimica'),
+(4, ''),
 (5, 'fisica'),
 (6, 'biologia'),
 (7, 'español'),
 (8, 'ingles'),
 (9, 'filosofia'),
-(10, 'programacion'),
-(14, 'jose'),
-(16, 'musica');
+(10, 'programacion');
 
 -- --------------------------------------------------------
 
@@ -2120,8 +2118,7 @@ INSERT INTO `pregunta` (`id_pregunta`, `pregunta`, `opcion_1`, `opcion_2`, `opci
 (1997, '¿Qué es despliegue?', 'Variable', 'Error', 'Publicar app', 'Dato', 3, 10),
 (1998, '¿Qué es un heap?', 'Cola', 'Pila', 'Lista', 'Estructura de montículo', 4, 10),
 (1999, '¿Qué es un hash table?', 'Grafo', 'Tabla de dispersión', 'Lista enlazada', 'Árbol binario', 2, 10),
-(2000, '¿Qué es un árbol binario?', 'Cada nodo tiene hasta 2 hijos', 'Cada nodo tiene 3 hijos', 'Sin hijos', 'Cada nodo tiene 1 hijo', 1, 10),
-(2002, 'donde esta jose juan?', 'veracruz', 'paraguay', 'con el mencho', 'sinaloa', 3, 14);
+(2000, '¿Qué es un árbol binario?', 'Cada nodo tiene hasta 2 hijos', 'Cada nodo tiene 3 hijos', 'Sin hijos', 'Cada nodo tiene 1 hijo', 1, 10);
 
 -- --------------------------------------------------------
 
