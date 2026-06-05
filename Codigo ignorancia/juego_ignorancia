@@ -320,7 +320,7 @@ def gano():
 		actualiza_puntos_usuario(posiciones[2]["id"], id_categoria, 1)
 		gan = TRUE#para que no pregunte y directamente reinicie el juego
 		reiniciar_juego()
-	elif x4>=1410:#en casso de que la ignorancia llegue a la meta nadie gana
+	elif x4>=meta:#en casso de que la ignorancia llegue a la meta nadie gana
 		messagebox.showinfo("Fin del juego","La ignorancia gano")
 		print(posiciones)
 		gan = TRUE
